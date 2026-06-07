@@ -33,7 +33,7 @@ Before we look at the math, it helps to understand the three policies involved i
 | Policy | Role | Updated? |
 |--------|------|----------|
 | $\pi_{ref}$ | Reference model used for KL regularization | No |
-| $\pi_{old}$ | Snapshot of the current policy used to generate samples | No |
+| $\pi_{old}$ | Frozen behavior policy that generated the sampled responses | No |
 | $\pi_{\theta}$ | Current trainable policy being optimized | Yes |
 
 At the start of a training iteration:
@@ -212,7 +212,7 @@ This estimator has several useful properties:
 - always non-negative,
 - equals zero when both policies are identical,
 - computable from a single sampled output,
-- unbiased with respect to the true KL divergence.
+- its expectation corresponds to the KL regularization term used in the objective.
 
 For example, if:
 
@@ -360,7 +360,7 @@ In practice, the total objective is the expectation over all sampled responses i
 
 This is the part that often gets skipped.
 
-The objective value itself is not the final answer. It is used to compute gradients.
+The objective value itself is not directly optimized. Instead, it is used to compute gradients that determine how the model parameters should change.
 
 The optimizer computes:
 
