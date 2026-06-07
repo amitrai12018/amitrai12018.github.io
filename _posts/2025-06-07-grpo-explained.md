@@ -34,9 +34,9 @@ Consider the prompt:
 
 Instead of generating a single response, GRPO samples multiple responses:
 
-- \(o_1\)
-- \(o_2\)
-- \(o_3\)
+- $o_1$
+- $o_2$
+- $o_3$
 
 Each response is evaluated by a reward model.
 
@@ -82,15 +82,15 @@ $$
 
 | Response | Reward | Advantage |
 |----------|--------|-----------|
-| \(o_1\) | 0.90 | +1.16 |
-| \(o_2\) | 0.60 | +0.12 |
-| \(o_3\) | 0.20 | -1.28 |
+| $o_1$ | 0.90 | +1.16 |
+| $o_2$ | 0.60 | +0.12 |
+| $o_3$ | 0.20 | -1.28 |
 
 This tells the model:
 
-- \(o_1\) is significantly better than average
-- \(o_2\) is slightly better than average
-- \(o_3\) is worse than average
+- $o_1$  is significantly better than average
+- $o_2$  is slightly better than average
+- $o_3$  is worse than average
 
 > Positive advantages increase probability. Negative advantages decrease probability.
 {: .prompt-tip }
