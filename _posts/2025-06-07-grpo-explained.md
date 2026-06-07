@@ -1,25 +1,21 @@
 ---
-
 title: "Understanding GRPO Through a Complete Numerical Example"
 date: 2025-06-07 09:00:00 +0530
 
 categories:
-
-* Reinforcement Learning
-* RL for LLMs
+  - Reinforcement Learning
+  - RL for LLMs
 
 tags:
-
-* grpo
-* rlhf
-* llms
-* kl-divergence
+  - grpo
+  - rlhf
+  - llms
+  - kl-divergence
 
 math: true
 toc: true
 mermaid: false
---------------
-
+---
 When reading papers about **GRPO (Group Relative Policy Optimization)**, it is easy to get lost in equations and implementation details.
 
 The best way to understand GRPO is to see how **reward**, **advantage**, **PPO clipping**, and **KL divergence** work together during a policy update.
