@@ -4,10 +4,10 @@ timezone: Asia/Kolkata
 
 title: Learn with Amit
 tagline: Practical AI, LLMs, and RLHF explained simply.
-description: A collection of practical notes, tutorials, and deep dives into AI, Machine Learning, LLMs, RLHF, and Generative AI.
+description: >
+  A collection of practical notes, tutorials, and deep dives into AI, Machine Learning, LLMs, RLHF, and Generative AI.
 
-url: https://amitrai12018.github.io
-baseurl: ""
+url: "https://amitrai12018.github.io"
 
 github:
   username: amitrai12018
@@ -20,6 +20,61 @@ social:
 
 toc: true
 
+theme_mode:
+
+avatar:
+
+paginate: 10
+baseurl: ""
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      comments: true
+      toc: true
+      permalink: /posts/:title/
+  - scope:
+      path: _drafts
+    values:
+      comments: false
+  - scope:
+      path: ""
+      type: tabs
+    values:
+      layout: page
+      permalink: /:title/
+
+sass:
+  style: compressed
+
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
+  ignore:
+    envs: [development]
+
+exclude:
+  - "*.gem"
+  - "*.gemspec"
+  - docs
+  - tools
+  - README.md
+  - LICENSE
+  - purgecss.js
+  - "*.config.js"
+  - "package*.json"
+
 jekyll-archives:
   enabled: [categories, tags]
   layouts:
@@ -28,16 +83,3 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
-
-plugins:
-  - jekyll-paginate
-  - jekyll-archives
-  - jekyll-sitemap
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-relative-links
-  - jemoji
-  - jekyll-include-cache
-
-paginate: 10
-paginate_path: /page:num/
