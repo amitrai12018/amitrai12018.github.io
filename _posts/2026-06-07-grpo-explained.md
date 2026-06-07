@@ -16,6 +16,8 @@ math: true
 toc: true
 mermaid: true
 ---
+![GRPO Explained](/assets/img/posts/grpo-explained/grpo-cover.png)
+{: .shadow .rounded-10 }
 
 When reading papers about **GRPO (Group Relative Policy Optimization)**, it is easy to get lost in equations and implementation details.
 
