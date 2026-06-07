@@ -399,20 +399,206 @@ flowchart TD
     G --> H
     H --> I
 ```
-<div id="quiz-test">
-  <button type="button" id="quiz-test-btn">Click to test interactivity</button>
-  <p id="quiz-test-output"></p>
+## Quiz Yourself
+
+Test your understanding of GRPO. Submit your answers to see your score, correctness, and explanations.
+
+<div id="grpo-quiz" style="margin-top: 1.5rem; padding: 1rem; border: 1px solid #ddd; border-radius: 12px;">
+  <div class="quiz-question" data-question="q1" data-correct="C" data-section="The Three Policies in GRPO">
+    <p><strong>1. Which policy is updated during GRPO training?</strong></p>
+    <label><input type="radio" name="q1" value="A"> π<sub>ref</sub></label><br>
+    <label><input type="radio" name="q1" value="B"> π<sub>old</sub></label><br>
+    <label><input type="radio" name="q1" value="C"> π<sub>θ</sub></label><br>
+    <label><input type="radio" name="q1" value="D"> All three</label>
+    <div class="quiz-feedback" id="feedback-q1" style="margin-top: 0.5rem;"></div>
+  </div>
+
+  <hr>
+
+  <div class="quiz-question" data-question="q2" data-correct="B" data-section="Computing the GRPO Advantage">
+    <p><strong>2. What is the purpose of the advantage in GRPO?</strong></p>
+    <label><input type="radio" name="q2" value="A"> Compute KL divergence</label><br>
+    <label><input type="radio" name="q2" value="B"> Measure whether a response is better or worse than the group average</label><br>
+    <label><input type="radio" name="q2" value="C"> Freeze the policy</label><br>
+    <label><input type="radio" name="q2" value="D"> Generate responses</label>
+    <div class="quiz-feedback" id="feedback-q2" style="margin-top: 0.5rem;"></div>
+  </div>
+
+  <hr>
+
+  <div class="quiz-question" data-question="q3" data-correct="B" data-section="Computing the PPO Policy Ratio">
+    <p><strong>3. What does the PPO ratio measure?</strong></p>
+    <label><input type="radio" name="q3" value="A"> Difference between reward and advantage</label><br>
+    <label><input type="radio" name="q3" value="B"> How much the current policy changed compared to the policy that generated the samples</label><br>
+    <label><input type="radio" name="q3" value="C"> KL divergence directly</label><br>
+    <label><input type="radio" name="q3" value="D"> The reward model score</label>
+    <div class="quiz-feedback" id="feedback-q3" style="margin-top: 0.5rem;"></div>
+  </div>
+
+  <hr>
+
+  <div class="quiz-question" data-question="q4" data-correct="B" data-section="Computing the PPO Policy Ratio">
+    <p><strong>4. Why does PPO use clipping?</strong></p>
+    <label><input type="radio" name="q4" value="A"> To compute rewards faster</label><br>
+    <label><input type="radio" name="q4" value="B"> To prevent excessively large policy updates</label><br>
+    <label><input type="radio" name="q4" value="C"> To remove the need for a reward model</label><br>
+    <label><input type="radio" name="q4" value="D"> To update the reference policy</label>
+    <div class="quiz-feedback" id="feedback-q4" style="margin-top: 0.5rem;"></div>
+  </div>
+
+  <hr>
+
+  <div class="quiz-question" data-question="q5" data-correct="C" data-section="Why GRPO Adds KL Divergence">
+    <p><strong>5. What is the role of KL divergence in GRPO?</strong></p>
+    <label><input type="radio" name="q5" value="A"> Increase reward directly</label><br>
+    <label><input type="radio" name="q5" value="B"> Generate multiple responses</label><br>
+    <label><input type="radio" name="q5" value="C"> Keep the policy close to the reference model</label><br>
+    <label><input type="radio" name="q5" value="D"> Compute advantages</label>
+    <div class="quiz-feedback" id="feedback-q5" style="margin-top: 0.5rem;"></div>
+  </div>
+
+  <hr>
+
+  <div class="quiz-question" data-question="q6" data-correct="C" data-section="One Complete Numerical GRPO Update">
+    <p><strong>6. If the PPO ratio is 1.25 and ε = 0.2, what is the clipped ratio?</strong></p>
+    <label><input type="radio" name="q6" value="A"> 1.25</label><br>
+    <label><input type="radio" name="q6" value="B"> 1.0</label><br>
+    <label><input type="radio" name="q6" value="C"> 1.2</label><br>
+    <label><input type="radio" name="q6" value="D"> 0.8</label>
+    <div class="quiz-feedback" id="feedback-q6" style="margin-top: 0.5rem;"></div>
+  </div>
+
+  <hr>
+
+  <div class="quiz-question" data-question="q7" data-correct="A" data-section="One Complete Numerical GRPO Update">
+    <p><strong>7. In the numerical example, what is the final per-sample GRPO contribution for response <em>o₁</em>?</strong></p>
+    <label><input type="radio" name="q7" value="A"> 1.39023</label><br>
+    <label><input type="radio" name="q7" value="B"> 1.16000</label><br>
+    <label><input type="radio" name="q7" value="C"> 0.00177</label><br>
+    <label><input type="radio" name="q7" value="D"> 1.39200</label>
+    <div class="quiz-feedback" id="feedback-q7" style="margin-top: 0.5rem;"></div>
+  </div>
+
+  <hr>
+
+  <div class="quiz-question" data-question="q8" data-correct="B" data-section="What Happens After J_GRPO Is Computed">
+    <p><strong>8. What happens immediately after computing <code>J<sub>GRPO</sub></code>?</strong></p>
+    <label><input type="radio" name="q8" value="A"> The reference model is updated</label><br>
+    <label><input type="radio" name="q8" value="B"> Gradients are computed and the model weights are updated</label><br>
+    <label><input type="radio" name="q8" value="C"> The reward model is retrained</label><br>
+    <label><input type="radio" name="q8" value="D"> The batch is discarded</label>
+    <div class="quiz-feedback" id="feedback-q8" style="margin-top: 0.5rem;"></div>
+  </div>
+
+  <hr>
+
+  <button type="button" id="submit-grpo-quiz" style="padding: 0.6rem 1rem; border-radius: 8px; border: 1px solid #999; cursor: pointer;">
+    Submit Quiz
+  </button>
+
+  <p id="quiz-score" style="margin-top: 1rem; font-weight: 600;"></p>
+  <div id="quiz-summary" style="margin-top: 1rem;"></div>
 </div>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const button = document.getElementById("quiz-test-btn");
-    const output = document.getElementById("quiz-test-output");
+document.addEventListener("DOMContentLoaded", function () {
+  const submitButton = document.getElementById("submit-grpo-quiz");
+  const scoreEl = document.getElementById("quiz-score");
+  const summaryEl = document.getElementById("quiz-summary");
 
-    if (!button || !output) return;
+  if (!submitButton || !scoreEl || !summaryEl) return;
 
-    button.addEventListener("click", function () {
-      output.textContent = "Quiz interactivity is working.";
-    });
+  const explanations = {
+    q1: {
+      correct: "C",
+      correctAnswer: "πθ",
+      explanation: "πθ is the trainable policy. πref stays frozen, and πold is only the snapshot used during the optimization round.",
+      section: "The Three Policies in GRPO"
+    },
+    q2: {
+      correct: "B",
+      correctAnswer: "Measure whether a response is better or worse than the group average",
+      explanation: "The advantage compares each sampled response against the group average so the model knows which responses deserve reinforcement.",
+      section: "Computing the GRPO Advantage"
+    },
+    q3: {
+      correct: "B",
+      correctAnswer: "How much the current policy changed compared to the policy that generated the samples",
+      explanation: "The PPO ratio compares πθ to πold so we can measure how far the current policy moved from the sampling policy.",
+      section: "Computing the PPO Policy Ratio"
+    },
+    q4: {
+      correct: "B",
+      correctAnswer: "To prevent excessively large policy updates",
+      explanation: "Clipping acts like a trust region and keeps updates stable instead of allowing the policy to change too aggressively.",
+      section: "Computing the PPO Policy Ratio"
+    },
+    q5: {
+      correct: "C",
+      correctAnswer: "Keep the policy close to the reference model",
+      explanation: "The KL term penalizes drift from the reference policy so the model improves without forgetting useful pretrained behavior.",
+      section: "Why GRPO Adds KL Divergence"
+    },
+    q6: {
+      correct: "C",
+      correctAnswer: "1.2",
+      explanation: "With ε = 0.2, the allowed PPO ratio range is [0.8, 1.2], so 1.25 gets clipped to 1.2.",
+      section: "Computing the PPO Policy Ratio"
+    },
+    q7: {
+      correct: "A",
+      correctAnswer: "1.39023",
+      explanation: "For o₁, the PPO part is min(1.25 × 1.16, 1.2 × 1.16) = 1.392, and after subtracting the KL penalty 0.00177, the final contribution is 1.39023.",
+      section: "One Complete Numerical GRPO Update"
+    },
+    q8: {
+      correct: "B",
+      correctAnswer: "Gradients are computed and the model weights are updated",
+      explanation: "J_GRPO is used to compute gradients. Then the optimizer updates the trainable parameters θ. This is what actually changes the policy.",
+      section: "What Happens After J_GRPO Is Computed"
+    }
+  };
+
+  submitButton.addEventListener("click", function () {
+    let score = 0;
+    let total = Object.keys(explanations).length;
+    let summaryHtml = "";
+
+    summaryEl.innerHTML = "";
+
+    for (const q in explanations) {
+      const data = explanations[q];
+      const selected = document.querySelector(`input[name="${q}"]:checked`);
+      const feedbackEl = document.getElementById(`feedback-${q}`);
+
+      if (!feedbackEl) continue;
+
+      if (!selected) {
+        feedbackEl.innerHTML = `<span style="color: #b26a00;"><strong>Not answered.</strong></span> Correct answer: <strong>${data.correctAnswer}</strong><br>${data.explanation}<br><em>Reference: ${data.section}</em>`;
+        summaryHtml += `<p><strong>${q.toUpperCase()}</strong>: Not answered. Correct answer: <strong>${data.correctAnswer}</strong>.<br><em>Reference: ${data.section}</em></p>`;
+        continue;
+      }
+
+      const isCorrect = selected.value === data.correct;
+
+      if (isCorrect) {
+        score++;
+        feedbackEl.innerHTML = `<span style="color: #1a7f37;"><strong>Correct.</strong></span> Correct answer: <strong>${data.correctAnswer}</strong><br>${data.explanation}<br><em>Reference: ${data.section}</em>`;
+      } else {
+        feedbackEl.innerHTML = `<span style="color: #d1242f;"><strong>Incorrect.</strong></span> Your answer: <strong>${selected.value}</strong><br>Correct answer: <strong>${data.correctAnswer}</strong><br>${data.explanation}<br><em>Reference: ${data.section}</em>`;
+      }
+
+      summaryHtml += `<p><strong>${q.toUpperCase()}</strong>: ${isCorrect ? "Correct" : "Incorrect"}. Correct answer: <strong>${data.correctAnswer}</strong>.<br><em>Reference: ${data.section}</em></p>`;
+    }
+
+    scoreEl.textContent = `Score: ${score}/${total}`;
+
+    summaryEl.innerHTML = `
+      <div style="margin-top: 0.75rem; padding: 0.75rem; border: 1px solid #ddd; border-radius: 10px;">
+        <p><strong>Review Summary</strong></p>
+        ${summaryHtml}
+      </div>
+    `;
   });
+});
 </script>
