@@ -17,15 +17,16 @@ tags:
 
 math: true
 toc: true
----------
+mermaid: false
+--------------
 
-When reading papers about **GRPO (Group Relative Policy Optimization)**, it is easy to get lost in the equations and implementation details.
+When reading papers about **GRPO (Group Relative Policy Optimization)**, it is easy to get lost in equations and implementation details.
 
-The best way to understand GRPO is to see how all the components—**reward, advantage, PPO clipping, and KL divergence**—work together in a concrete example.
+The best way to understand GRPO is to see how **reward**, **advantage**, **PPO clipping**, and **KL divergence** work together during a policy update.
 
-In this article, we'll walk through a complete GRPO update step by step.
+In this article, we'll walk through a complete numerical example step by step.
 
-> GRPO is the algorithm used to optimize LLMs using reinforcement learning while avoiding the need for a separate value model.
+> GRPO is a reinforcement learning algorithm designed for LLM post-training that removes the need for a separate value model while still providing a strong learning signal.
 > {: .prompt-info }
 
 ## Why GRPO Generates Multiple Responses
@@ -34,7 +35,7 @@ Consider the prompt:
 
 > Write a polite customer support reply.
 
-Instead of generating a single response, GRPO samples multiple responses from the model:
+Instead of generating a single response, GRPO samples multiple responses:
 
 * (o_1)
 * (o_2)
@@ -48,7 +49,7 @@ $$
 R_1 = 0.9,\quad R_2 = 0.6,\quad R_3 = 0.2
 $$
 
-At this point we know which response performed better, but we still need a learning signal that tells the model **how much better** one response was compared to the others.
+At this point we know which response performed better, but we still need a signal that tells the model *how much better* one response was compared to the others.
 
 That signal is called the **advantage**.
 
@@ -69,7 +70,7 @@ $$
 0.5667
 $$
 
-Then compute the standard deviation:
+Next compute the standard deviation:
 
 $$
 \sigma \approx 0.2867
@@ -102,9 +103,9 @@ $$
 
 | Response | Reward | Advantage |
 | -------- | ------ | --------- |
-| (o_1)    | 0.9    | +1.16     |
-| (o_2)    | 0.6    | +0.12     |
-| (o_3)    | 0.2    | -1.28     |
+| (o_1)    | 0.90   | +1.16     |
+| (o_2)    | 0.60   | +0.12     |
+| (o_3)    | 0.20   | -1.28     |
 
 This tells the model:
 
@@ -112,16 +113,14 @@ This tells the model:
 * (o_2) is slightly better than average
 * (o_3) is worse than average
 
-> Positive advantages increase probability.
->
-> Negative advantages decrease probability.
+> Positive advantages increase probability. Negative advantages decrease probability.
 > {: .prompt-tip }
 
 ---
 
 ## Computing the PPO Policy Ratio
 
-Next we compare the current policy with the policy used to generate the samples.
+Next we compare the current policy with the policy that generated the samples.
 
 Assume:
 
@@ -175,7 +174,7 @@ $$
 \rho_3 = 0.50
 $$
 
-PPO then optimizes:
+PPO optimizes:
 
 $$
 \min
@@ -206,10 +205,10 @@ r
 =
 
 \frac{\pi_{ref}(o|q)}
-{\pi_\theta(o|q)}
+{\pi_{\theta}(o|q)}
 $$
 
-GRPO uses the per-sample KL estimator:
+GRPO uses the following per-sample KL estimator:
 
 $$
 r - \log(r) - 1
@@ -219,10 +218,10 @@ This estimator has several useful properties:
 
 * Always non-negative
 * Equals zero when both policies are identical
-* Computable from a single sampled response
+* Computable from a single sampled output
 * Unbiased with respect to the true KL divergence
 
-> The KL term acts like a safety rail that prevents the model from drifting too far from the reference policy.
+> The KL term acts like a safety rail that prevents the policy from drifting too far away from the reference model.
 > {: .prompt-info }
 
 ---
@@ -251,11 +250,11 @@ r-\log(r)-1
 \right]
 $$
 
-This objective combines three important ideas:
+This objective combines three important ideas.
 
 ### 1. Advantage
 
-Advantage determines whether a response is better or worse than other responses generated for the same prompt.
+Advantage determines whether a response is better or worse than the other responses generated for the same prompt.
 
 ### 2. PPO Clipping
 
@@ -275,13 +274,13 @@ Think of GRPO as balancing two competing forces.
 
 The advantage term says:
 
-> "Generate more responses like the successful ones."
+> Generate more responses like the successful ones.
 
 ### Stability
 
 The KL term says:
 
-> "Do not forget what the model already knows."
+> Do not forget what the model already knows.
 
 The result is a learning process that improves behavior while maintaining stability.
 
@@ -292,7 +291,7 @@ The result is a learning process that improves behavior while maintaining stabil
 * GRPO generates multiple responses for each prompt.
 * Rewards are normalized into group-relative advantages.
 * PPO clipping stabilizes policy updates.
-* KL divergence keeps the model close to a reference policy.
+* KL divergence keeps the policy close to a reference model.
 * Together, these components enable stable reinforcement learning for large language models.
 
-Understanding this interaction between **reward**, **advantage**, **PPO**, and **KL divergence** is the key to understanding how modern RL-based post-training methods improve large language models.
+Understanding the interaction between **reward**, **advantage**, **PPO**, and **KL divergence** is the key to understanding how modern RL-based post-training methods improve large language models.
