@@ -12,4 +12,5 @@ This blog is a collection of practical notes, deep dives, and learning journeys 
 
 My goal is simple: learn deeply, explain clearly, and help others build strong intuition for the ideas shaping the future of AI.
 
+
 🔗 LinkedIn: https://www.linkedin.com/in/amit-rai-12018/
