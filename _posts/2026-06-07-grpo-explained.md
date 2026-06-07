@@ -399,206 +399,278 @@ flowchart TD
     G --> H
     H --> I
 ```
-## Quiz Yourself
+<section id="grpo-quiz" style="margin-top: 2rem; padding: 1.25rem; border: 1px solid var(--sidebar-border-color, #ddd); border-radius: 14px;">
+  <h2>Quiz Yourself</h2>
+  <p>Answer each question to get instant feedback, the correct answer, an explanation, and your updated score.</p>
 
-Test your understanding of GRPO. Submit your answers to see your score, correctness, and explanations.
-
-<div id="grpo-quiz" style="margin-top: 1.5rem; padding: 1rem; border: 1px solid #ddd; border-radius: 12px;">
-  <div class="quiz-question" data-question="q1" data-correct="C" data-section="The Three Policies in GRPO">
-    <p><strong>1. Which policy is updated during GRPO training?</strong></p>
-    <label><input type="radio" name="q1" value="A"> π<sub>ref</sub></label><br>
-    <label><input type="radio" name="q1" value="B"> π<sub>old</sub></label><br>
-    <label><input type="radio" name="q1" value="C"> π<sub>θ</sub></label><br>
-    <label><input type="radio" name="q1" value="D"> All three</label>
-    <div class="quiz-feedback" id="feedback-q1" style="margin-top: 0.5rem;"></div>
+  <div id="quiz-score" style="margin: 1rem 0; font-size: 1.05rem; font-weight: 600;">
+    Score: 0 / 15
   </div>
 
-  <hr>
-
-  <div class="quiz-question" data-question="q2" data-correct="B" data-section="Computing the GRPO Advantage">
-    <p><strong>2. What is the purpose of the advantage in GRPO?</strong></p>
-    <label><input type="radio" name="q2" value="A"> Compute KL divergence</label><br>
-    <label><input type="radio" name="q2" value="B"> Measure whether a response is better or worse than the group average</label><br>
-    <label><input type="radio" name="q2" value="C"> Freeze the policy</label><br>
-    <label><input type="radio" name="q2" value="D"> Generate responses</label>
-    <div class="quiz-feedback" id="feedback-q2" style="margin-top: 0.5rem;"></div>
-  </div>
-
-  <hr>
-
-  <div class="quiz-question" data-question="q3" data-correct="B" data-section="Computing the PPO Policy Ratio">
-    <p><strong>3. What does the PPO ratio measure?</strong></p>
-    <label><input type="radio" name="q3" value="A"> Difference between reward and advantage</label><br>
-    <label><input type="radio" name="q3" value="B"> How much the current policy changed compared to the policy that generated the samples</label><br>
-    <label><input type="radio" name="q3" value="C"> KL divergence directly</label><br>
-    <label><input type="radio" name="q3" value="D"> The reward model score</label>
-    <div class="quiz-feedback" id="feedback-q3" style="margin-top: 0.5rem;"></div>
-  </div>
-
-  <hr>
-
-  <div class="quiz-question" data-question="q4" data-correct="B" data-section="Computing the PPO Policy Ratio">
-    <p><strong>4. Why does PPO use clipping?</strong></p>
-    <label><input type="radio" name="q4" value="A"> To compute rewards faster</label><br>
-    <label><input type="radio" name="q4" value="B"> To prevent excessively large policy updates</label><br>
-    <label><input type="radio" name="q4" value="C"> To remove the need for a reward model</label><br>
-    <label><input type="radio" name="q4" value="D"> To update the reference policy</label>
-    <div class="quiz-feedback" id="feedback-q4" style="margin-top: 0.5rem;"></div>
-  </div>
-
-  <hr>
-
-  <div class="quiz-question" data-question="q5" data-correct="C" data-section="Why GRPO Adds KL Divergence">
-    <p><strong>5. What is the role of KL divergence in GRPO?</strong></p>
-    <label><input type="radio" name="q5" value="A"> Increase reward directly</label><br>
-    <label><input type="radio" name="q5" value="B"> Generate multiple responses</label><br>
-    <label><input type="radio" name="q5" value="C"> Keep the policy close to the reference model</label><br>
-    <label><input type="radio" name="q5" value="D"> Compute advantages</label>
-    <div class="quiz-feedback" id="feedback-q5" style="margin-top: 0.5rem;"></div>
-  </div>
-
-  <hr>
-
-  <div class="quiz-question" data-question="q6" data-correct="C" data-section="One Complete Numerical GRPO Update">
-    <p><strong>6. If the PPO ratio is 1.25 and ε = 0.2, what is the clipped ratio?</strong></p>
-    <label><input type="radio" name="q6" value="A"> 1.25</label><br>
-    <label><input type="radio" name="q6" value="B"> 1.0</label><br>
-    <label><input type="radio" name="q6" value="C"> 1.2</label><br>
-    <label><input type="radio" name="q6" value="D"> 0.8</label>
-    <div class="quiz-feedback" id="feedback-q6" style="margin-top: 0.5rem;"></div>
-  </div>
-
-  <hr>
-
-  <div class="quiz-question" data-question="q7" data-correct="A" data-section="One Complete Numerical GRPO Update">
-    <p><strong>7. In the numerical example, what is the final per-sample GRPO contribution for response <em>o₁</em>?</strong></p>
-    <label><input type="radio" name="q7" value="A"> 1.39023</label><br>
-    <label><input type="radio" name="q7" value="B"> 1.16000</label><br>
-    <label><input type="radio" name="q7" value="C"> 0.00177</label><br>
-    <label><input type="radio" name="q7" value="D"> 1.39200</label>
-    <div class="quiz-feedback" id="feedback-q7" style="margin-top: 0.5rem;"></div>
-  </div>
-
-  <hr>
-
-  <div class="quiz-question" data-question="q8" data-correct="B" data-section="What Happens After J_GRPO Is Computed">
-    <p><strong>8. What happens immediately after computing <code>J<sub>GRPO</sub></code>?</strong></p>
-    <label><input type="radio" name="q8" value="A"> The reference model is updated</label><br>
-    <label><input type="radio" name="q8" value="B"> Gradients are computed and the model weights are updated</label><br>
-    <label><input type="radio" name="q8" value="C"> The reward model is retrained</label><br>
-    <label><input type="radio" name="q8" value="D"> The batch is discarded</label>
-    <div class="quiz-feedback" id="feedback-q8" style="margin-top: 0.5rem;"></div>
-  </div>
-
-  <hr>
-
-  <button type="button" id="submit-grpo-quiz" style="padding: 0.6rem 1rem; border-radius: 8px; border: 1px solid #999; cursor: pointer;">
-    Submit Quiz
-  </button>
-
-  <p id="quiz-score" style="margin-top: 1rem; font-weight: 600;"></p>
-  <div id="quiz-summary" style="margin-top: 1rem;"></div>
-</div>
+  <div id="quiz-container"></div>
+</section>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const submitButton = document.getElementById("submit-grpo-quiz");
-  const scoreEl = document.getElementById("quiz-score");
-  const summaryEl = document.getElementById("quiz-summary");
-
-  if (!submitButton || !scoreEl || !summaryEl) return;
-
-  const explanations = {
-    q1: {
+  const quizData = [
+    {
+      id: "q1",
+      question: "GRPO uses three policies. Which one is updated during training?",
+      options: {
+        A: "πref",
+        B: "πold",
+        C: "πθ",
+        D: "All three"
+      },
       correct: "C",
-      correctAnswer: "πθ",
-      explanation: "πθ is the trainable policy. πref stays frozen, and πold is only the snapshot used during the optimization round.",
+      explanation: "πθ is the trainable policy. πref stays frozen for KL regularization, and πold is the frozen snapshot used during the optimization round.",
       section: "The Three Policies in GRPO"
     },
-    q2: {
+    {
+      id: "q2",
+      question: "Why does GRPO keep πold fixed during an optimization round?",
+      options: {
+        A: "To compute the reward model output",
+        B: "To provide a stable baseline for measuring how much the policy changes",
+        C: "To replace the reference model",
+        D: "To generate the advantage directly"
+      },
       correct: "B",
-      correctAnswer: "Measure whether a response is better or worse than the group average",
-      explanation: "The advantage compares each sampled response against the group average so the model knows which responses deserve reinforcement.",
+      explanation: "πold is the behavior policy used to collect the samples. Keeping it fixed lets PPO measure how much the trainable policy changes relative to the sampled batch.",
+      section: "The Three Policies in GRPO"
+    },
+    {
+      id: "q3",
+      question: "Why does GRPO sample multiple responses for the same prompt?",
+      options: {
+        A: "To reduce inference latency",
+        B: "To compare responses and compute group-relative advantages",
+        C: "To train the reward model directly",
+        D: "To avoid using KL divergence"
+      },
+      correct: "B",
+      explanation: "GRPO compares multiple responses generated for the same prompt so it can rank them relative to one another and compute advantages.",
+      section: "Why GRPO Generates Multiple Responses"
+    },
+    {
+      id: "q4",
+      question: "A response gets a strongly positive advantage. What is the intended effect?",
+      options: {
+        A: "Make it less likely in the future",
+        B: "Keep its probability unchanged",
+        C: "Increase its probability in future generations",
+        D: "Remove it from training"
+      },
+      correct: "C",
+      explanation: "Positive advantages tell the optimizer to reinforce responses that performed better than the group average.",
       section: "Computing the GRPO Advantage"
     },
-    q3: {
+    {
+      id: "q5",
+      question: "What does the GRPO advantage measure?",
+      options: {
+        A: "How far the response is from the reference model",
+        B: "How much a response differs from the group average reward",
+        C: "The policy change between πold and πθ",
+        D: "The KL divergence penalty"
+      },
       correct: "B",
-      correctAnswer: "How much the current policy changed compared to the policy that generated the samples",
-      explanation: "The PPO ratio compares πθ to πold so we can measure how far the current policy moved from the sampling policy.",
-      section: "Computing the PPO Policy Ratio"
+      explanation: "The advantage is computed from the reward relative to the group mean and standard deviation, so it measures how the response compares to the other sampled responses.",
+      section: "Computing the GRPO Advantage"
     },
-    q4: {
-      correct: "B",
-      correctAnswer: "To prevent excessively large policy updates",
-      explanation: "Clipping acts like a trust region and keeps updates stable instead of allowing the policy to change too aggressively.",
-      section: "Computing the PPO Policy Ratio"
-    },
-    q5: {
+    {
+      id: "q6",
+      question: "What does the PPO ratio compare?",
+      options: {
+        A: "Reward vs advantage",
+        B: "Current policy vs reference policy",
+        C: "Current policy vs old snapshot policy",
+        D: "Reward model vs policy model"
+      },
       correct: "C",
-      correctAnswer: "Keep the policy close to the reference model",
-      explanation: "The KL term penalizes drift from the reference policy so the model improves without forgetting useful pretrained behavior.",
+      explanation: "The PPO ratio is πθ / πold. It measures how much the current policy has changed relative to the snapshot that generated the sampled responses.",
+      section: "Computing the PPO Policy Ratio"
+    },
+    {
+      id: "q7",
+      question: "Why is PPO clipping used?",
+      options: {
+        A: "To compute rewards faster",
+        B: "To prevent excessively large policy updates",
+        C: "To replace the KL penalty",
+        D: "To update πref"
+      },
+      correct: "B",
+      explanation: "Clipping keeps the policy update within a safe range so the model does not move too aggressively in one step.",
+      section: "Computing the PPO Policy Ratio"
+    },
+    {
+      id: "q8",
+      question: "If ε = 0.2, what is the PPO clipping range?",
+      options: {
+        A: "[0.2, 1.2]",
+        B: "[0.8, 1.2]",
+        C: "[0.8, 1.8]",
+        D: "[1.0, 1.2]"
+      },
+      correct: "B",
+      explanation: "PPO clipping uses [1 - ε, 1 + ε]. With ε = 0.2, the range becomes [0.8, 1.2].",
+      section: "Computing the PPO Policy Ratio"
+    },
+    {
+      id: "q9",
+      question: "Why does GRPO add KL divergence to the objective?",
+      options: {
+        A: "To generate more responses",
+        B: "To keep the policy close to the reference model",
+        C: "To compute the reward model output",
+        D: "To replace the advantage term"
+      },
+      correct: "B",
+      explanation: "KL regularization discourages the model from drifting too far from the reference policy while still allowing learning.",
       section: "Why GRPO Adds KL Divergence"
     },
-    q6: {
-      correct: "C",
-      correctAnswer: "1.2",
-      explanation: "With ε = 0.2, the allowed PPO ratio range is [0.8, 1.2], so 1.25 gets clipped to 1.2.",
-      section: "Computing the PPO Policy Ratio"
-    },
-    q7: {
-      correct: "A",
-      correctAnswer: "1.39023",
-      explanation: "For o₁, the PPO part is min(1.25 × 1.16, 1.2 × 1.16) = 1.392, and after subtracting the KL penalty 0.00177, the final contribution is 1.39023.",
-      section: "One Complete Numerical GRPO Update"
-    },
-    q8: {
+    {
+      id: "q10",
+      question: "Which statement about the KL estimator is correct?",
+      options: {
+        A: "It can be negative for every sample",
+        B: "It is always non-negative",
+        C: "It directly gives the reward",
+        D: "It is the same as the advantage"
+      },
       correct: "B",
-      correctAnswer: "Gradients are computed and the model weights are updated",
-      explanation: "J_GRPO is used to compute gradients. Then the optimizer updates the trainable parameters θ. This is what actually changes the policy.",
-      section: "What Happens After J_GRPO Is Computed"
+      explanation: "The KL estimator used here, r - log(r) - 1, is always non-negative and becomes zero when the policies match.",
+      section: "Why GRPO Adds KL Divergence"
+    },
+    {
+      id: "q11",
+      question: "What does β do in the GRPO objective?",
+      options: {
+        A: "It controls the strength of the KL penalty",
+        B: "It controls the reward model size",
+        C: "It changes the prompt",
+        D: "It computes the advantage"
+      },
+      correct: "A",
+      explanation: "β is the weight on the KL term. A larger β means stronger pressure to stay close to the reference policy.",
+      section: "Why GRPO Adds KL Divergence"
+    },
+    {
+      id: "q12",
+      question: "What is the role of the objective J_GRPO?",
+      options: {
+        A: "It is the final answer shown to the user",
+        B: "It is used to compute gradients for updating the model",
+        C: "It replaces the reward model",
+        D: "It is the same thing as the advantage"
+      },
+      correct: "B",
+      explanation: "The objective is not the end goal itself. It is used to compute gradients that guide the parameter update.",
+      section: "What Happens After J_GRPO Is Computed?"
+    },
+    {
+      id: "q13",
+      question: "After computing J_GRPO, what happens next?",
+      options: {
+        A: "The reward model is retrained immediately",
+        B: "The gradients are computed and the model weights are updated",
+        C: "πref is updated",
+        D: "The batch is discarded"
+      },
+      correct: "B",
+      explanation: "The optimizer computes gradients from the objective and updates the trainable parameters θ.",
+      section: "What Happens After J_GRPO Is Computed?"
+    },
+    {
+      id: "q14",
+      question: "At the end of a training iteration, what happens to πold?",
+      options: {
+        A: "It becomes the reference policy",
+        B: "It is recreated from the updated πθ for the next iteration",
+        C: "It is used to compute rewards",
+        D: "It is updated together with πref"
+      },
+      correct: "B",
+      explanation: "After optimization, the new policy is copied to become the next iteration's snapshot policy.",
+      section: "Training Flow"
+    },
+    {
+      id: "q15",
+      question: "Which statement best describes GRPO overall?",
+      options: {
+        A: "It maximizes reward without any stability control",
+        B: "It improves responses while keeping policy updates stable and controlled",
+        C: "It removes the need for rewards",
+        D: "It only trains the reference model"
+      },
+      correct: "B",
+      explanation: "GRPO combines reward improvement with PPO clipping and KL regularization so the policy learns without drifting too far.",
+      section: "Putting Everything Together"
     }
-  };
+  ];
 
-  submitButton.addEventListener("click", function () {
-    let score = 0;
-    let total = Object.keys(explanations).length;
-    let summaryHtml = "";
+  const container = document.getElementById("quiz-container");
+  const scoreEl = document.getElementById("quiz-score");
+  let scoreState = new Array(quizData.length).fill(null);
 
-    summaryEl.innerHTML = "";
+  function updateScore() {
+    const score = scoreState.filter(v => v === true).length;
+    scoreEl.textContent = `Score: ${score} / ${quizData.length}`;
+  }
 
-    for (const q in explanations) {
-      const data = explanations[q];
-      const selected = document.querySelector(`input[name="${q}"]:checked`);
-      const feedbackEl = document.getElementById(`feedback-${q}`);
+  function renderQuiz() {
+    container.innerHTML = "";
 
-      if (!feedbackEl) continue;
+    quizData.forEach((q, index) => {
+      const card = document.createElement("div");
+      card.style.cssText = "padding: 1rem 0; border-top: 1px solid #e5e7eb;";
 
-      if (!selected) {
-        feedbackEl.innerHTML = `<span style="color: #b26a00;"><strong>Not answered.</strong></span> Correct answer: <strong>${data.correctAnswer}</strong><br>${data.explanation}<br><em>Reference: ${data.section}</em>`;
-        summaryHtml += `<p><strong>${q.toUpperCase()}</strong>: Not answered. Correct answer: <strong>${data.correctAnswer}</strong>.<br><em>Reference: ${data.section}</em></p>`;
-        continue;
-      }
+      const optionsHtml = Object.entries(q.options).map(([key, value]) => `
+        <label style="display:block; margin: 0.35rem 0; cursor:pointer;">
+          <input type="radio" name="${q.id}" value="${key}" style="margin-right: 0.5rem;">
+          ${key}. ${value}
+        </label>
+      `).join("");
 
-      const isCorrect = selected.value === data.correct;
+      card.innerHTML = `
+        <p style="margin: 0 0 0.5rem 0;"><strong>Q${index + 1}.</strong> ${q.question}</p>
+        <div class="quiz-options">${optionsHtml}</div>
+        <div id="${q.id}-feedback" style="margin-top: 0.75rem; padding: 0.75rem; border-radius: 10px; display:none;"></div>
+        <div style="margin-top: 0.6rem; font-size: 0.9rem; opacity: 0.8;"><em>Reference: ${q.section}</em></div>
+      `;
 
-      if (isCorrect) {
-        score++;
-        feedbackEl.innerHTML = `<span style="color: #1a7f37;"><strong>Correct.</strong></span> Correct answer: <strong>${data.correctAnswer}</strong><br>${data.explanation}<br><em>Reference: ${data.section}</em>`;
-      } else {
-        feedbackEl.innerHTML = `<span style="color: #d1242f;"><strong>Incorrect.</strong></span> Your answer: <strong>${selected.value}</strong><br>Correct answer: <strong>${data.correctAnswer}</strong><br>${data.explanation}<br><em>Reference: ${data.section}</em>`;
-      }
+      container.appendChild(card);
 
-      summaryHtml += `<p><strong>${q.toUpperCase()}</strong>: ${isCorrect ? "Correct" : "Incorrect"}. Correct answer: <strong>${data.correctAnswer}</strong>.<br><em>Reference: ${data.section}</em></p>`;
-    }
+      const inputs = card.querySelectorAll(`input[name="${q.id}"]`);
+      const feedback = card.querySelector(`#${q.id}-feedback`);
 
-    scoreEl.textContent = `Score: ${score}/${total}`;
+      inputs.forEach(input => {
+        input.addEventListener("change", function () {
+          const selected = card.querySelector(`input[name="${q.id}"]:checked`).value;
+          const isCorrect = selected === q.correct;
+          scoreState[index] = isCorrect;
 
-    summaryEl.innerHTML = `
-      <div style="margin-top: 0.75rem; padding: 0.75rem; border: 1px solid #ddd; border-radius: 10px;">
-        <p><strong>Review Summary</strong></p>
-        ${summaryHtml}
-      </div>
-    `;
-  });
+          const correctAnswerText = `${q.correct}. ${q.options[q.correct]}`;
+          const chosenText = `${selected}. ${q.options[selected]}`;
+
+          feedback.style.display = "block";
+          feedback.style.border = isCorrect ? "1px solid #22c55e" : "1px solid #ef4444";
+          feedback.style.background = isCorrect ? "rgba(34,197,94,0.08)" : "rgba(239,68,68,0.08)";
+          feedback.innerHTML = `
+            <strong>${isCorrect ? "Correct" : "Incorrect"}</strong><br>
+            Your answer: ${chosenText}<br>
+            Correct answer: ${correctAnswerText}<br><br>
+            ${q.explanation}
+          `;
+
+          updateScore();
+        });
+      });
+    });
+  }
+
+  renderQuiz();
+  updateScore();
 });
 </script>
