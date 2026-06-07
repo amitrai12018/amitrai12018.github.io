@@ -1,6 +1,6 @@
 ---
 title: "Understanding GRPO Through a Complete Numerical Example"
-date: 2025-06-07 09:00:00 +0530
+date: 2026-06-07 09:00:00 +0530
 
 categories:
   - Reinforcement Learning
