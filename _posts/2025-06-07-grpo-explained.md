@@ -14,7 +14,7 @@ tags:
 
 math: true
 toc: true
-mermaid: false
+mermaid: true
 ---
 
 When reading papers about **GRPO (Group Relative Policy Optimization)**, it is easy to get lost in equations and implementation details.
