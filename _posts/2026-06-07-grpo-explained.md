@@ -399,7 +399,13 @@ flowchart TD
     G --> H
     H --> I
 ```
-<section id="grpo-quiz" style="margin-top: 2rem; padding: 1.25rem; border: 1px solid var(--sidebar-border-color, #ddd); border-radius: 14px;">
+
+## Time for Active Recall {: #quiz-yourself}
+
+<div id="grpo-quiz"></div>
+<script src="/assets/js/grpo-quiz.js"></script>
+
+<section id="grpo-quiz" style="margin-top: 2rem; paddinge: 1.25rem; border: 1px solid var(--sidebar-border-color, #ddd); border-radius: 14px;">
   <h2>Quiz Yourself</h2>
   <p>Answer each question to get instant feedback, the correct answer, an explanation, and your updated score.</p>
 
