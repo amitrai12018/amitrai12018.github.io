@@ -399,3 +399,20 @@ flowchart TD
     G --> H
     H --> I
 ```
+<div id="quiz-test">
+  <button type="button" id="quiz-test-btn">Click to test interactivity</button>
+  <p id="quiz-test-output"></p>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const button = document.getElementById("quiz-test-btn");
+    const output = document.getElementById("quiz-test-output");
+
+    if (!button || !output) return;
+
+    button.addEventListener("click", function () {
+      output.textContent = "Quiz interactivity is working.";
+    });
+  });
+</script>
