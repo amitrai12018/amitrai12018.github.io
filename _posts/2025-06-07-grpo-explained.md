@@ -172,9 +172,15 @@ J_{GRPO}
 =
 \mathbb{E}
 \left[
-\min\Big(\rho A,\text{clip}(\rho,1-\epsilon,1+\epsilon)A\Big)
+\min\Big(
+\rho A,
+\text{clip}(\rho,1-\epsilon,1+\epsilon)A
+\Big)
 -
-\beta\Big(r-\log(r)-1\Big)
+\beta
+\Big(
+r-\log(r)-1
+\Big)
 \right]
 $$
 
