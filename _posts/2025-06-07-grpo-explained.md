@@ -1,8 +1,8 @@
 ---
 title: "Understanding GRPO Through a Complete Numerical Example"
 date: 2026-06-07 09:00:00 +0530
-categories: [RLHF, GRPO]
-tags: [llms, reinforcement-learning, kl-divergence]
+categories: [Reinforcement Learning, RL for LLMs]
+tags: [grpo, rlhf, llms]
 toc: true
 mermaid: false
 ---
