@@ -376,21 +376,26 @@ $$
 
 where $\alpha$ is the learning rate.
 
-### Training flow
+### Training Flow
 
-```text
-Sample responses with π_old
-        ↓
-Compute rewards
-        ↓
-Compute advantages
-        ↓
-Compute PPO term
-        ↓
-Compute KL penalty
-        ↓
-Compute J_GRPO
-        ↓
-Backpropagate gradients
-        ↓
-Update θ
+```mermaid
+flowchart TD
+    A[Sample responses using π_old]
+    B[Compute rewards]
+    C[Compute advantages]
+    D[Compute PPO objective]
+    E[Compute KL penalty]
+    F[Compute J_GRPO]
+    G[Compute gradients ∇θJ]
+    H[Update model weights θ]
+    I[Create new π_old from updated π_θ]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+```
