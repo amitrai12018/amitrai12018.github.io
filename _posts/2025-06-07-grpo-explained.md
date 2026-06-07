@@ -19,14 +19,34 @@ mermaid: false
 
 When reading papers about **GRPO (Group Relative Policy Optimization)**, it is easy to get lost in equations and implementation details.
 
-The best way to understand GRPO is to see how **reward**, **advantage**, **PPO clipping**, and **KL divergence** work together during a policy update.
+The best way to understand GRPO is to see how **reward**, **advantage**, **PPO clipping**, **KL divergence**, and the **training loop** fit together in one complete update.
 
 In this article, we'll walk through a complete numerical example step by step.
 
 > GRPO is a reinforcement learning algorithm designed for LLM post-training that removes the need for a separate value model while still providing a strong learning signal.
 {: .prompt-info }
 
-## Why GRPO Generates Multiple Responses
+## The Three Policies in GRPO
+
+Before we look at the math, it helps to understand the three policies involved in a GRPO update.
+
+| Policy | Role | Updated? |
+|--------|------|----------|
+| $\pi_{ref}$ | Reference model used for KL regularization | No |
+| $\pi_{old}$ | Snapshot of the current policy used to generate samples | No |
+| $\pi_{\theta}$ | Current trainable policy being optimized | Yes |
+
+At the start of a training iteration:
+
+$$
+\pi_{old} = \pi_{\theta}
+$$
+
+Then the model samples responses using $\pi_{old}$, computes rewards, and updates $\pi_{\theta}$ while keeping $\pi_{old}$ fixed during that optimization round.
+
+---
+
+## 1. Why GRPO Generates Multiple Responses
 
 Consider the prompt:
 
@@ -50,7 +70,9 @@ At this point we know which response performed better, but we still need a signa
 
 That signal is called the **advantage**.
 
-## Computing the GRPO Advantage
+---
+
+## 2. Computing the GRPO Advantage
 
 GRPO computes advantages relative to other responses generated for the same prompt.
 
@@ -88,24 +110,26 @@ $$
 
 This tells the model:
 
-- $o_1$  is significantly better than average
-- $o_2$  is slightly better than average
-- $o_3$  is worse than average
+- $o_1$ is significantly better than average
+- $o_2$ is slightly better than average
+- $o_3$ is worse than average
 
 > Positive advantages increase probability. Negative advantages decrease probability.
 {: .prompt-tip }
 
-## Computing the PPO Policy Ratio
+---
 
-Next we compare the current policy with the policy that generated the samples.
+## 3. Computing the PPO Policy Ratio
 
-Assume:
+Now we compare the current policy with the policy that generated the samples.
+
+At the moment the batch was collected, the snapshot policy was:
 
 $$
 \pi_{old}(o_1|q)=0.20,\quad \pi_{old}(o_2|q)=0.30,\quad \pi_{old}(o_3|q)=0.10
 $$
 
-and
+Suppose after one optimization step, the current policy becomes:
 
 $$
 \pi_{\theta}(o_1|q)=0.25,\quad \pi_{\theta}(o_2|q)=0.25,\quad \pi_{\theta}(o_3|q)=0.05
@@ -131,13 +155,43 @@ $$
 
 The clipping term prevents excessively large policy updates.
 
-## Why GRPO Adds KL Divergence
+For example, if we use:
+
+$$
+\epsilon = 0.2
+$$
+
+then the allowed range is:
+
+$$
+[1-\epsilon, 1+\epsilon] = [0.8, 1.2]
+$$
+
+So for $o_1$:
+
+$$
+\text{clip}(1.25) = 1.2
+$$
+
+and the PPO term becomes:
+
+$$
+\min(1.25 \times 1.16,\; 1.2 \times 1.16)
+=
+\min(1.45,\; 1.392)
+=
+1.392
+$$
+
+---
+
+## 4. Why GRPO Adds KL Divergence
 
 If we optimize only for reward, the model may:
 
-- Drift away from pretrained behavior
-- Learn reward-hacking strategies
-- Forget useful capabilities
+- drift away from pretrained behavior,
+- learn reward-hacking strategies,
+- forget useful capabilities.
 
 To prevent this, GRPO keeps the policy close to a reference model.
 
@@ -155,15 +209,53 @@ $$
 
 This estimator has several useful properties:
 
-- Always non-negative
-- Equals zero when both policies are identical
-- Computable from a single sampled output
-- Unbiased with respect to the true KL divergence
+- always non-negative,
+- equals zero when both policies are identical,
+- computable from a single sampled output,
+- unbiased with respect to the true KL divergence.
+
+For example, if:
+
+$$
+\pi_{ref}(o_1|q)=0.30
+$$
+
+and
+
+$$
+\pi_{\theta}(o_1|q)=0.25
+$$
+
+then:
+
+$$
+r = \frac{0.30}{0.25} = 1.2
+$$
+
+The KL estimator becomes:
+
+$$
+1.2 - \log(1.2) - 1 \approx 0.0177
+$$
+
+If we choose:
+
+$$
+\beta = 0.1
+$$
+
+then the KL penalty is:
+
+$$
+0.1 \times 0.0177 = 0.00177
+$$
 
 > The KL term acts like a safety rail that prevents the policy from drifting too far away from the reference model.
 {: .prompt-info }
 
-## Putting Everything Together
+---
+
+## 5. Putting Everything Together
 
 The complete GRPO objective is:
 
@@ -198,30 +290,107 @@ Clipping prevents unstable policy updates.
 
 KL divergence prevents the policy from drifting too far away from the reference model.
 
-## Intuition
+---
 
-Think of GRPO as balancing two competing forces.
+## 6. One Complete Numerical GRPO Update
 
-### Reward Improvement
+Let us now compute one full example for response $o_1$.
 
-The advantage term says:
+We already have:
 
-> Generate more responses like the successful ones.
+$$
+A_1 = 1.16
+$$
 
-### Stability
+$$
+\rho_1 = 1.25
+$$
 
-The KL term says:
+$$
+\epsilon = 0.2
+$$
 
-> Do not forget what the model already knows.
+So the clipped ratio is:
 
-The result is a learning process that improves behavior while maintaining stability.
+$$
+\text{clip}(1.25) = 1.2
+$$
 
-## Key Takeaways
+The PPO part is:
 
-- GRPO generates multiple responses for each prompt.
-- Rewards are normalized into group-relative advantages.
-- PPO clipping stabilizes policy updates.
-- KL divergence keeps the policy close to a reference model.
-- Together, these components enable stable reinforcement learning for large language models.
+$$
+\min(1.25 \times 1.16,\; 1.2 \times 1.16)
+=
+\min(1.45,\; 1.392)
+=
+1.392
+$$
 
-Understanding the interaction between reward, advantage, PPO, and KL divergence is the key to understanding how modern RL-based post-training methods improve large language models.
+Now the KL part is:
+
+$$
+r - \log(r) - 1 \approx 0.0177
+$$
+
+With:
+
+$$
+\beta = 0.1
+$$
+
+the KL penalty becomes:
+
+$$
+0.00177
+$$
+
+So the per-sample GRPO contribution is:
+
+$$
+J_1 = 1.392 - 0.00177 = 1.39023
+$$
+
+That is the number this sample contributes to the overall objective.
+
+In practice, the total objective is the expectation over all sampled responses in the batch.
+
+---
+
+## 7. What Happens After $J_{GRPO}$ Is Computed?
+
+This is the part that often gets skipped.
+
+The objective value itself is not the final answer. It is used to compute gradients.
+
+The optimizer computes:
+
+$$
+\nabla_\theta J_{GRPO}
+$$
+
+and then updates the model weights:
+
+$$
+\theta \leftarrow \theta + \alpha \nabla_\theta J_{GRPO}
+$$
+
+where $\alpha$ is the learning rate.
+
+### Training flow
+
+```text
+Sample responses with π_old
+        ↓
+Compute rewards
+        ↓
+Compute advantages
+        ↓
+Compute PPO term
+        ↓
+Compute KL penalty
+        ↓
+Compute J_GRPO
+        ↓
+Backpropagate gradients
+        ↓
+Update θ
