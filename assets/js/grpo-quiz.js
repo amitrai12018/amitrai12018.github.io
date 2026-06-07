@@ -1,15 +1,3 @@
-<section id="grpo-quiz" style="margin-top: 2rem; paddinge: 1.25rem; border: 1px solid var(--sidebar-border-color, #ddd); border-radius: 14px;">
-  <h2>Quiz Yourself</h2>
-  <p>Answer each question to get instant feedback, the correct answer, an explanation, and your updated score.</p>
-
-  <div id="quiz-score" style="margin: 1rem 0; font-size: 1.05rem; font-weight: 600;">
-    Score: 0 / 15
-  </div>
-
-  <div id="quiz-container"></div>
-</section>
-
-<script>
 document.addEventListener("DOMContentLoaded", function () {
   const quizData = [
     {
@@ -209,68 +197,85 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   ];
 
-  const container = document.getElementById("quiz-container");
-  const scoreEl = document.getElementById("quiz-score");
-  let scoreState = new Array(quizData.length).fill(null);
+  const container = document.getElementById("grpo-quiz");
+  if (!container) return;
+
+  const root = document.createElement("div");
+  root.style.cssText = "margin-top: 1rem; padding: 1.25rem; border: 1px solid var(--sidebar-border-color, #ddd); border-radius: 14px;";
+
+  const heading = document.createElement("h2");
+  heading.textContent = "Quiz Yourself";
+
+  const intro = document.createElement("p");
+  intro.textContent = "Answer each question to get instant feedback, the correct answer, an explanation, and your updated score.";
+
+  const scoreEl = document.createElement("div");
+  scoreEl.id = "quiz-score";
+  scoreEl.style.cssText = "margin: 1rem 0; font-size: 1.05rem; font-weight: 600;";
+  scoreEl.textContent = `Score: 0 / ${quizData.length}`;
+
+  const quizContainer = document.createElement("div");
+  quizContainer.id = "quiz-container";
+
+  root.appendChild(heading);
+  root.appendChild(intro);
+  root.appendChild(scoreEl);
+  root.appendChild(quizContainer);
+  container.appendChild(root);
+
+  const scoreState = new Array(quizData.length).fill(null);
 
   function updateScore() {
     const score = scoreState.filter(v => v === true).length;
     scoreEl.textContent = `Score: ${score} / ${quizData.length}`;
   }
 
-  function renderQuiz() {
-    container.innerHTML = "";
+  quizData.forEach((q, index) => {
+    const card = document.createElement("div");
+    card.style.cssText = "padding: 1rem 0; border-top: 1px solid #e5e7eb;";
 
-    quizData.forEach((q, index) => {
-      const card = document.createElement("div");
-      card.style.cssText = "padding: 1rem 0; border-top: 1px solid #e5e7eb;";
+    const optionsHtml = Object.entries(q.options).map(([key, value]) => `
+      <label style="display:block; margin: 0.35rem 0; cursor:pointer;">
+        <input type="radio" name="${q.id}" value="${key}" style="margin-right: 0.5rem;">
+        ${key}. ${value}
+      </label>
+    `).join("");
 
-      const optionsHtml = Object.entries(q.options).map(([key, value]) => `
-        <label style="display:block; margin: 0.35rem 0; cursor:pointer;">
-          <input type="radio" name="${q.id}" value="${key}" style="margin-right: 0.5rem;">
-          ${key}. ${value}
-        </label>
-      `).join("");
+    card.innerHTML = `
+      <p style="margin: 0 0 0.5rem 0;"><strong>Q${index + 1}.</strong> ${q.question}</p>
+      <div class="quiz-options">${optionsHtml}</div>
+      <div id="${q.id}-feedback" style="margin-top: 0.75rem; padding: 0.75rem; border-radius: 10px; display:none;"></div>
+      <div style="margin-top: 0.6rem; font-size: 0.9rem; opacity: 0.8;"><em>Reference: ${q.section}</em></div>
+    `;
 
-      card.innerHTML = `
-        <p style="margin: 0 0 0.5rem 0;"><strong>Q${index + 1}.</strong> ${q.question}</p>
-        <div class="quiz-options">${optionsHtml}</div>
-        <div id="${q.id}-feedback" style="margin-top: 0.75rem; padding: 0.75rem; border-radius: 10px; display:none;"></div>
-        <div style="margin-top: 0.6rem; font-size: 0.9rem; opacity: 0.8;"><em>Reference: ${q.section}</em></div>
-      `;
+    quizContainer.appendChild(card);
 
-      container.appendChild(card);
+    const inputs = card.querySelectorAll(`input[name="${q.id}"]`);
+    const feedback = card.querySelector(`#${q.id}-feedback`);
 
-      const inputs = card.querySelectorAll(`input[name="${q.id}"]`);
-      const feedback = card.querySelector(`#${q.id}-feedback`);
+    inputs.forEach(input => {
+      input.addEventListener("change", function () {
+        const selected = card.querySelector(`input[name="${q.id}"]:checked`).value;
+        const isCorrect = selected === q.correct;
+        scoreState[index] = isCorrect;
 
-      inputs.forEach(input => {
-        input.addEventListener("change", function () {
-          const selected = card.querySelector(`input[name="${q.id}"]:checked`).value;
-          const isCorrect = selected === q.correct;
-          scoreState[index] = isCorrect;
+        const correctAnswerText = `${q.correct}. ${q.options[q.correct]}`;
+        const chosenText = `${selected}. ${q.options[selected]}`;
 
-          const correctAnswerText = `${q.correct}. ${q.options[q.correct]}`;
-          const chosenText = `${selected}. ${q.options[selected]}`;
+        feedback.style.display = "block";
+        feedback.style.border = isCorrect ? "1px solid #22c55e" : "1px solid #ef4444";
+        feedback.style.background = isCorrect ? "rgba(34,197,94,0.08)" : "rgba(239,68,68,0.08)";
+        feedback.innerHTML = `
+          <strong>${isCorrect ? "Correct" : "Incorrect"}</strong><br>
+          Your answer: ${chosenText}<br>
+          Correct answer: ${correctAnswerText}<br><br>
+          ${q.explanation}
+        `;
 
-          feedback.style.display = "block";
-          feedback.style.border = isCorrect ? "1px solid #22c55e" : "1px solid #ef4444";
-          feedback.style.background = isCorrect ? "rgba(34,197,94,0.08)" : "rgba(239,68,68,0.08)";
-          feedback.innerHTML = `
-            <strong>${isCorrect ? "Correct" : "Incorrect"}</strong><br>
-            Your answer: ${chosenText}<br>
-            Correct answer: ${correctAnswerText}<br><br>
-            ${q.explanation}
-          `;
-
-          updateScore();
-        });
+        updateScore();
       });
     });
-  }
+  });
 
-  renderQuiz();
   updateScore();
 });
-  
-</script>
