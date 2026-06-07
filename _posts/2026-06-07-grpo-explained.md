@@ -673,4 +673,5 @@ document.addEventListener("DOMContentLoaded", function () {
   renderQuiz();
   updateScore();
 });
+  
 </script>
