@@ -1,8 +1,11 @@
 ---
-# the default layout is 'page'
-icon: fas fa-info-circle
-order: 4
+layout: page
+title: About
+permalink: /about/
 ---
 
-> Add Markdown syntax content to file `_tabs/about.md`{: .filepath } and it will show up on this page.
-{: .prompt-tip }
+Hi, I’m Amit.
+
+I’m a Machine Learning Engineer interested in AI, LLMs, RLHF, and Generative AI.
+
+This blog is where I write practical notes, tutorials, and deep dives that make complex ideas easier to understand.
