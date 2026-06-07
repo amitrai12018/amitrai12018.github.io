@@ -400,7 +400,7 @@ flowchart TD
     H --> I
 ```
 
-## Time for Active Recall {: #quiz-yourself}
+## 8. Quiz : Active Recall 
 
 <div id="grpo-quiz"></div>
 <script src="/assets/js/grpo-quiz.js"></script>
