@@ -1,13 +1,21 @@
 ---
 title: "Understanding GRPO Through a Complete Numerical Example"
-date: 2026-06-07 09:00:00 +0530
-categories: [Reinforcement Learning, RL for LLMs, GRPO]
-tags: [grpo, rlhf, llms]
+date: 2025-06-07 09:00:00 +0530
+
+categories:
+  - Reinforcement Learning
+  - RL for LLMs
+
+tags:
+  - grpo
+  - rlhf
+  - llms
+  - kl-divergence
+
+math: true
 toc: true
-mermaid: false
 ---
 
-# Understanding GRPO Through a Complete Numerical Example
 
 When learning GRPO, the key idea is to understand how reward, advantage, PPO clipping, and KL divergence work together during policy updates.
 
