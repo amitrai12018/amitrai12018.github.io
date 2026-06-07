@@ -28,3 +28,16 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+plugins:
+  - jekyll-paginate
+  - jekyll-archives
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-relative-links
+  - jemoji
+  - jekyll-include-cache
+
+paginate: 10
+paginate_path: /page:num/
