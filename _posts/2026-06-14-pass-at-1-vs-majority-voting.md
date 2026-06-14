@@ -325,4 +325,4 @@ This is why majority voting has become a common evaluation technique for reasoni
 ## Quiz : Active Recall
 
 <div id="reasoning-metrics-quiz"></div>
-<script src="/assets/js/reasoning-metrics-quiz.js"></script>
+<script src="/assets/js/2026-06-14-pass-at-1-vs-majority-voting.js"></script>
