@@ -1,6 +1,6 @@
 ---
 title: "Understanding Pass@1, Majority Voting, and Pass@k Through AIME 2024"
-date: 2026-06-08 09:00:00 +0530
+date: 2026-06-14 17:45:00 +0530
 
 categories:
   - Reinforcement Learning
