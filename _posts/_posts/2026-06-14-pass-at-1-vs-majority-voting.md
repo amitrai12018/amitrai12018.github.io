@@ -1,21 +1,18 @@
 ---
-
 title: "Understanding Pass@1, Majority Voting, and Pass@k Through AIME 2024"
 date: 2026-06-08 09:00:00 +0530
 
 categories:
-
-* Reinforcement Learning
-* RL for LLMs
+  - Reinforcement Learning
+  - RL for LLMs
 
 tags:
-
-* reasoning-models
-* evaluation
-* pass-at-k
-* majority-voting
-* aime-2024
-* llms
+  - reasoning-models
+  - evaluation
+  - pass-at-k
+  - majority-voting
+  - aime-2024
+  - llms
 
 math: true
 toc: true
