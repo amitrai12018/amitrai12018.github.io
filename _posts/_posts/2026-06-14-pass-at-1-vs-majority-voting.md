@@ -20,7 +20,7 @@ tags:
 math: true
 toc: true
 mermaid: true
--------------
+---
 
 ![Pass@1 vs Majority Voting](/assets/img/posts/pass-at-k-explained/pass-at-k-cover.png)
 {: .shadow .rounded-10 }
