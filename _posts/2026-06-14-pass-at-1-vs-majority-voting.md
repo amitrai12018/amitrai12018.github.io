@@ -18,7 +18,6 @@ math: true
 toc: true
 mermaid: true
 ---
-
 ![Pass@1 vs Majority Voting](assets/img/posts/2026-06-14-pass-at-1-vs-majority-voting.png)
 {: .shadow .rounded-10 }
 
