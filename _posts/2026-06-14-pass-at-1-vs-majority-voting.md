@@ -19,7 +19,7 @@ toc: true
 mermaid: true
 ---
 
-![Pass@1 vs Majority Voting](/assets/img/posts/pass-at-k-explained/pass-at-k-cover.png)
+![Pass@1 vs Majority Voting](assets/img/posts/2026-06-14-pass-at-1-vs-majority-voting.png)
 {: .shadow .rounded-10 }
 
 When reading reasoning model papers, it is common to see numbers such as:
