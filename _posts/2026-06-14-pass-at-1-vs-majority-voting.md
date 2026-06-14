@@ -110,15 +110,15 @@ Suppose we sample 10 responses and observe:
 
 Then:
 
+Pass@1 is:
+
 $$
 \text{Pass@1}
-=============
-
-# \frac{7}{10}
-
-70%
+=
+\frac{7}{10}
+=
+70\%
 $$
-
 Pass@1 measures ordinary single-shot reliability.
 
 If a user asks a question once, Pass@1 reflects the expected success rate.
