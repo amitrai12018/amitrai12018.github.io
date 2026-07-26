@@ -1,22 +1,23 @@
-title: "From Formula Hunting to Structure Recognition"date: 2026-07-26 09:00:00 +0530
+
+---
+title: "From Formula Hunting to Structure Recognition"
+date: 2026-07-26 09:00:00 +0530
 
 categories:
-
-Mathematics
-
-Mathematical Modeling
+  - Mathematics
+  - Mathematical Modeling
 
 tags:
+  - mathematical-structures
+  - abstraction
+  - invariants
+  - equivalence
+  - modeling
 
-mathematical-structures
-
-abstraction
-
-invariants
-
-equivalence
-
-modeling
+math: true
+toc: true
+mermaid: true
+---
 
 {: .shadow .rounded-10 }
 
