@@ -18,7 +18,7 @@ toc: true
 mermaid: true
 ---
 
-![From Formula Hunting to Structure Recognition](/assets/img/posts/From Formula Hunting to Structure Recognition/image.png)
+![From Formula Hunting to Structure Recognition](/assets/img/posts/From Formula Hunting to Structure Recognition/matehmatical_objects.png)
 {: .shadow .rounded-10 }
 
 For much of early mathematics, the subject can feel like a collection of formulas.
