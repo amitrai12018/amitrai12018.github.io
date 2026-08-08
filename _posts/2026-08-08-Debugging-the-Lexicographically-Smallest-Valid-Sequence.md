@@ -5,17 +5,17 @@ date: 2026-08-08 19:00:00 +0530
 
 categories:
 
-* Algorithms
-* Competitive Programming
+- Algorithms
+- Competitive Programming
 
 tags:
 
-* leetcode
-* greedy
-* strings
-* subsequences
-* debugging
-* prefix-suffix
+- leetcode
+- greedy
+- strings
+- subsequences
+- debugging
+- prefix-suffix
 
 ---
 
