@@ -331,6 +331,7 @@ This was an important simplification.
 
 The left-to-right scan itself maintains it.
 
+
 ---
 
 ## 8. Why Do We Still Need the Suffix?
