@@ -1,0 +1,982 @@
+---
+
+title: "Debugging the Lexicographically Smallest Valid Sequence"
+date: 2026-08-08 19:00:00 +0530
+
+categories:
+
+- Algorithms
+- Competitive Programming
+
+tags:
+
+- leetcode
+- greedy
+- strings
+- subsequences
+- debugging
+- prefix-suffix
+
+---
+
+{: .shadow .rounded-10 }
+
+When solving a difficult LeetCode problem, the final solution can sometimes look deceptively simple.
+
+The interesting part is often the path taken to get there:
+
+* What did I initially think?
+* Which assumptions were wrong?
+* What counterexample exposed the mistake?
+* What information was actually useful?
+* How did the final greedy strategy emerge?
+
+This article is a debugging journey through **LeetCode 3302 — Find the Lexicographically Smallest Valid Sequence**.
+
+The goal is not just to present the final implementation, but to reconstruct the reasoning that eventually led to it.
+
+> The most useful debugging technique in algorithmic problems is often not staring at the code. It is finding a testcase that proves your assumption is wrong.
+> {: .prompt-info }
+
+---
+
+## 1. Understanding the Problem
+
+We are given two strings:
+
+```text
+word1
+word2
+```
+
+We need to select `word2.length` indices from `word1`.
+
+The selected characters must form a string that can be made equal to `word2` by changing **at most one character**.
+
+The indices must be strictly increasing.
+
+And there is an important detail:
+
+> We want the **lexicographically smallest sequence of indices**, not the lexicographically smallest resulting string.
+
+For example:
+
+```text
+word1 = "vbcca"
+         01234
+
+word2 = "abc"
+```
+
+The answer is:
+
+```text
+[0, 1, 2]
+```
+
+because the selected characters are:
+
+```text
+v b c
+```
+
+which can become:
+
+```text
+a b c
+```
+
+by changing the first character.
+
+The fact that index `0` is used is more important than the fact that the selected string is `"vbc"` rather than `"abc"`.
+
+---
+
+## 2. My Initial Thinking
+
+The first instinct was brute force.
+
+If:
+
+```text
+n = len(word1)
+m = len(word2)
+```
+
+then there are:
+
+$$
+\binom{n}{m}
+$$
+
+possible subsequences.
+
+Clearly, that is impossible when:
+
+$$
+n \leq 3 \times 10^5
+$$
+
+So the next question was:
+
+> What structure does a valid sequence have?
+
+There are only two possibilities:
+
+### Case 1: Everything matches
+
+The selected subsequence is exactly `word2`.
+
+### Case 2: Exactly one character is different
+
+For example:
+
+```text
+word2 = a b c d
+             ↑
+             mismatch
+```
+
+Then the selected sequence has the form:
+
+```text
+exact prefix
++
+one different character
++
+exact suffix
+```
+
+This led to the first important observation.
+
+> If I decide where the one mismatch occurs, everything before and after it must be matched exactly.
+
+---
+
+## 3. Where Should the Mismatch Occur?
+
+Suppose we choose position `i` in `word1` as the character that will potentially be changed.
+
+Visually:
+
+```text
+word1:
+
+[----------- prefix -----------] [i] [----------- suffix -----------]
+                                  ↑
+                             one replacement
+```
+
+We need to know:
+
+1. How much of `word2` can be matched before `i`?
+2. How much of `word2` can be matched after `i`?
+
+This led to the next idea:
+
+> Build information about matching from the left and from the right.
+
+---
+
+## 4. Building the Prefix Information
+
+I started by scanning `word1` from left to right.
+
+For every position, I tracked how far I had progressed in `word2`.
+
+For example:
+
+```text
+word1 = b a c d c
+         0 1 2 3 4
+
+word2 = a b c
+         0 1 2
+```
+
+We scan:
+
+```text
+word1[0] = b
+```
+
+It does not match:
+
+```text
+word2[0] = a
+```
+
+So nothing is matched.
+
+Then:
+
+```text
+word1[1] = a
+```
+
+matches:
+
+```text
+word2[0] = a
+```
+
+So we have matched the first character.
+
+The important information is:
+
+> How far into `word2` can I get by scanning `word1` from the left?
+
+I represented this using:
+
+```python
+prefix
+```
+
+where the stored value represents the last matched position in `word2`.
+
+---
+
+## 5. Building the Suffix Information
+
+Then I asked the symmetric question:
+
+> How much of `word2` can I match if I scan `word1` from the right?
+
+So I scan backwards.
+
+For:
+
+```text
+word1 = b a c d c
+         0 1 2 3 4
+
+word2 = a b c
+         0 1 2
+```
+
+the final:
+
+```text
+c
+```
+
+can be matched using:
+
+```text
+word1[4]
+```
+
+Then we continue backwards looking for the preceding character of `word2`.
+
+This gives us a corresponding:
+
+```python
+suffix
+```
+
+array.
+
+At this point, I had two pieces of information:
+
+```text
+prefix → how far can I match from the left?
+
+suffix → how far can I match from the right?
+```
+
+This was the key structural insight.
+
+---
+
+## 6. The First Candidate Strategy
+
+Now suppose I am at position `i`.
+
+I can think of the sequence as:
+
+```text
+prefix + word1[i] + suffix
+```
+
+where `word1[i]` is the character that I am allowed to change.
+
+So I asked:
+
+> Can the prefix before `i` and suffix after `i` cover all but one character of `word2`?
+
+If yes, then `i` can potentially be the position where the replacement happens.
+
+This led to the condition used in my implementation:
+
+```python
+abs(suffix[i + 1] - prefix[i]) <= 2
+```
+
+The idea is that the prefix and suffix matched positions in `word2` should leave at most one position between them for the changed character.
+
+---
+
+## 7. First Important Mistake: "Earliest Feasible Replacement"
+
+At this point I made an assumption:
+
+> If position `i` can be used as the replacement, then the earliest such `i` should give the lexicographically smallest answer.
+
+This sounds reasonable.
+
+After all, lexicographical order prefers smaller indices.
+
+So I implemented:
+
+```python
+i = 0
+
+while i < len(word1):
+
+    if feasible(i):
+        break
+
+    i += 1
+```
+
+Then I constructed the answer using `i` as the replacement.
+
+This worked on many examples.
+
+But it was wrong.
+
+---
+
+## 8. The Counterexample
+
+The testcase that exposed the bug was:
+
+```text
+word1 = "ghhgghhhhhh"
+word2 = "gg"
+```
+
+My solution produced:
+
+```text
+[0, 3]
+```
+
+but the expected answer was:
+
+```text
+[0, 1]
+```
+
+At first this looked surprising.
+
+Why isn't the earliest replacement position enough?
+
+Let's inspect the sequence.
+
+```text
+word1 = g h h g g h h h h h h
+         0 1 2 3 4 ...
+```
+
+```text
+word2 = g g
+```
+
+At index `0`:
+
+```text
+word1[0] = g
+word2[0] = g
+```
+
+They already match!
+
+There is **no reason to spend our one replacement at index `0`**.
+
+We should simply take index `0`.
+
+So:
+
+```text
+answer = [0]
+```
+
+Now we need:
+
+```text
+word2[1] = g
+```
+
+At index `1`:
+
+```text
+word1[1] = h
+word2[1] = g
+```
+
+They differ.
+
+But now we can use our one allowed replacement:
+
+```text
+h → g
+```
+
+giving:
+
+```text
+answer = [0, 1]
+```
+
+This is better than:
+
+```text
+[0, 3]
+```
+
+because:
+
+$$
+[0,1] < [0,3]
+$$
+
+lexicographically.
+
+---
+
+## 9. The Important Correction
+
+This counterexample changed the way I thought about the greedy step.
+
+The incorrect thought was:
+
+> Find the earliest position that can be the mismatch.
+
+The correct thought is:
+
+> **Scan `word1` from left to right and try to use every index as the next element of the answer.**
+
+At every index:
+
+### Case 1: It matches the next character
+
+Take it.
+
+```text
+word1[i] == word2[j]
+```
+
+We should **always prefer this exact match** because we want the earliest possible index.
+
+### Case 2: It does not match
+
+We have two possibilities:
+
+* skip it;
+* use it as our one allowed replacement.
+
+We use it as the replacement only if we can still finish the rest of `word2`.
+
+This is the crucial greedy rule.
+
+```text
+if word1[i] == word2[j]:
+
+    take i
+
+elif replacement_not_used and
+     remaining_suffix_can_be_matched:
+
+    take i
+    use replacement
+
+else:
+
+    skip i
+```
+
+---
+
+## 10. Why the Suffix Array Is So Useful
+
+Suppose we have already constructed:
+
+```text
+word2[0:j]
+```
+
+and we are currently considering:
+
+```text
+word1[i]
+```
+
+Suppose:
+
+```text
+word1[i] != word2[j]
+```
+
+We can use our one replacement:
+
+```text
+word1[i] → word2[j]
+```
+
+Now the only question is:
+
+> Can I match `word2[j+1:]` after index `i`?
+
+This is exactly what the suffix information tells us.
+
+So the suffix array is no longer being used to decide the entire answer.
+
+It is being used for one very specific question:
+
+> **If I use this index as my mismatch, can I finish the remaining suffix?**
+
+---
+
+## 11. Walking Through the Counterexample
+
+Let's run the corrected greedy idea.
+
+```text
+word1 = g h h g g h h h h h h
+         0 1 2 3 4 ...
+
+word2 = g g
+         0 1
+```
+
+Initially:
+
+```text
+j = 0
+replacement_used = False
+answer = []
+```
+
+### i = 0
+
+```text
+word1[0] = g
+word2[0] = g
+```
+
+Exact match.
+
+Take it:
+
+```text
+answer = [0]
+j = 1
+```
+
+We do **not** use our replacement.
+
+---
+
+### i = 1
+
+Now:
+
+```text
+word1[1] = h
+word2[1] = g
+```
+
+Mismatch.
+
+Can we use our replacement?
+
+The remaining suffix after this position is empty:
+
+```text
+word2[2:] = ""
+```
+
+So yes.
+
+Take index `1`:
+
+```text
+answer = [0, 1]
+```
+
+We are finished.
+
+The resulting selected string is:
+
+```text
+h? 
+```
+
+More precisely:
+
+```text
+word1[0] = g
+word1[1] = h
+```
+
+which can become:
+
+```text
+g g
+```
+
+with one replacement.
+
+Therefore:
+
+```text
+[0,1]
+```
+
+is the answer.
+
+---
+
+## 12. Why This Greedy Choice Works
+
+The answer is an array of indices:
+
+```text
+[i0, i1, i2, ...]
+```
+
+Lexicographical order means that the first position where two answers differ determines which one is smaller.
+
+Suppose two valid answers are:
+
+```text
+[2, 7, 10]
+[3, 4,  5]
+```
+
+The first answer is smaller because:
+
+$$
+2 < 3
+$$
+
+We don't care that the second answer may have smaller later indices.
+
+Therefore, when scanning `word1` from left to right:
+
+> If the current index can safely become the next index in some valid solution, we should take it.
+
+And an exact match is especially safe because it does not consume the one replacement.
+
+---
+
+## 13. The Final Mental Model
+
+The entire problem eventually became much simpler in my head.
+
+Instead of thinking:
+
+> "Where should I put the mismatch?"
+
+I think:
+
+> **"Can I take this index as the next index of my answer?"**
+
+At every `word1[i]`:
+
+```text
+                    word1[i]
+                       |
+                       v
+              Does it match
+               word2[j]?
+                  /    \
+                YES     NO
+                 |       |
+                 v       v
+               TAKE    Can I use
+                        replacement?
+                       /       \
+                     YES        NO
+                      |          |
+                      v          v
+                    TAKE       SKIP
+```
+
+The suffix array answers the `YES/NO` question in the mismatch case.
+
+---
+
+## 14. The Final Algorithm
+
+The final algorithm is therefore:
+
+### Step 1 — Build suffix information
+
+Scan `word1` from right to left.
+
+For each position, determine how much of the end of `word2` can still be matched.
+
+---
+
+### Step 2 — Scan `word1` from left to right
+
+Maintain:
+
+```python
+j = 0
+```
+
+where `j` is the next character of `word2` we need.
+
+Also maintain:
+
+```python
+changed = False
+```
+
+to indicate whether the one allowed replacement has already been used.
+
+---
+
+### Step 3 — Prefer exact matches
+
+If:
+
+```python
+word1[i] == word2[j]
+```
+
+take `i`.
+
+```python
+ans.append(i)
+j += 1
+```
+
+Do not consume the replacement.
+
+---
+
+### Step 4 — Consider a replacement only when necessary
+
+If:
+
+```python
+word1[i] != word2[j]
+```
+
+and the replacement has not been used, check whether the suffix after `i` can form:
+
+```python
+word2[j+1:]
+```
+
+If yes:
+
+```python
+ans.append(i)
+j += 1
+changed = True
+```
+
+---
+
+### Step 5 — Otherwise skip the index
+
+If neither condition works:
+
+```python
+i += 1
+```
+
+---
+
+## 15. The Final Implementation
+
+The implementation that emerged from the debugging process is:
+
+```python
+from typing import List
+
+class Solution:
+    def validSequence(self, word1: str, word2: str) -> List[int]:
+        n = len(word1)
+        m = len(word2)
+
+        if m > n:
+            return []
+
+        # suffix[i] = number of characters from the end of word2
+        # that can be matched using word1[i:].
+        suffix = [0] * (n + 1)
+
+        j = m - 1
+
+        for i in range(n - 1, -1, -1):
+            suffix[i] = suffix[i + 1]
+
+            if j >= 0 and word1[i] == word2[j]:
+                suffix[i] += 1
+                j -= 1
+
+        ans = []
+        j = 0
+        changed = False
+
+        for i in range(n):
+
+            if j == m:
+                break
+
+            # Prefer exact matches.
+            if word1[i] == word2[j]:
+                ans.append(i)
+                j += 1
+
+            # Otherwise use the one allowed replacement
+            # only if the remaining suffix can be matched.
+            elif not changed and suffix[i + 1] >= m - j - 1:
+                ans.append(i)
+                j += 1
+                changed = True
+
+        return ans if j == m else []
+```
+
+---
+
+## 16. What I Learned From the Debugging
+
+The biggest lesson from this problem was not the suffix array.
+
+It was the distinction between **feasibility** and **greedy choice**.
+
+Initially I was thinking:
+
+> "Can this index be the mismatch?"
+
+But that isn't enough.
+
+The real question is:
+
+> **"Can this index be the next element of the lexicographically smallest valid sequence?"**
+
+Those are different questions.
+
+An index can be a valid mismatch position, but choosing it may be worse than first taking an exact match at the same or earlier position.
+
+The counterexample:
+
+```text
+word1 = "ghhgghhhhhh"
+word2 = "gg"
+```
+
+made that distinction obvious.
+
+The final strategy became:
+
+```text
+Exact match
+    ↓
+take it immediately
+
+Mismatch
+    ↓
+use replacement only if necessary
+and only if the suffix can finish
+
+Otherwise
+    ↓
+skip
+```
+
+> **When optimizing a lexicographic sequence, don't greedily optimize the "special operation." Greedily optimize the sequence itself.**
+> {: .prompt-tip }
+
+---
+
+## 17. Complexity
+
+We scan `word1` a constant number of times.
+
+The suffix preprocessing takes:
+
+$$
+O(n)
+$$
+
+The final greedy scan takes:
+
+$$
+O(n)
+$$
+
+Therefore:
+
+$$
+\boxed{O(n)}
+$$
+
+time complexity.
+
+The suffix array requires:
+
+$$
+\boxed{O(n)}
+$$
+
+additional space.
+
+---
+
+## 18. Final Takeaway
+
+The solution did not start with the final greedy algorithm.
+
+It evolved through several questions:
+
+```text
+Can I brute force all subsequences?
+        ↓
+No.
+
+What does a valid subsequence look like?
+        ↓
+Exact prefix + at most one mismatch + exact suffix.
+
+Can I characterize the prefix?
+        ↓
+Build prefix information.
+
+Can I characterize the suffix?
+        ↓
+Build suffix information.
+
+Can I find a feasible mismatch position?
+        ↓
+Yes.
+
+Is the earliest feasible mismatch necessarily optimal?
+        ↓
+No.
+
+Counterexample:
+"ghhgghhhhhh", "gg"
+        ↓
+[0,3] vs [0,1]
+
+What actually needs to be greedy?
+        ↓
+The answer indices themselves.
+
+Final strategy:
+exact match first,
+otherwise use the one replacement if the suffix can finish.
+```
+
+That debugging path is the important part.
+
+The final code is relatively short, but the real work was discovering **what exactly needed to be greedy**.
