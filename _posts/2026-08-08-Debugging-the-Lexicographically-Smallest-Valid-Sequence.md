@@ -987,29 +987,29 @@ additional space.
 
 ```mermaid
 flowchart TD
-    A[Brute force all subsequences] --> B[Too many possibilities]
+    A["Brute force all subsequences"] --> B["Too many possibilities"]
 
-    B --> C[Valid sequence = exact prefix + at most one mismatch + exact suffix]
+    B --> C["Valid sequence = exact prefix + at most one mismatch + exact suffix"]
 
-    C --> D[Initial idea: maintain prefix + suffix]
+    C --> D["Initial idea: maintain prefix and suffix"]
 
-    D --> E[Use prefix/suffix to find feasible replacement]
+    D --> E["Use prefix and suffix to find feasible replacement"]
 
-    E --> F[Wrong assumption: earliest feasible replacement is optimal]
+    E --> F["Wrong assumption: earliest feasible replacement is optimal"]
 
     F --> G["Counterexample: g h h g g ... / g g"]
 
-    G --> H[Why did [0,3] lose to [0,1]?]
+    G --> H["Why did 0,3 lose to 0,1?"]
 
-    H --> I[Exact matches must be preferred]
+    H --> I["Exact matches must be preferred"]
 
-    I --> J[Left-to-right greedy construction]
+    I --> J["Left-to-right greedy construction"]
 
-    J --> K[Prefix is implicit in j]
+    J --> K["Prefix is implicit in j"]
 
-    K --> L[Only suffix preprocessing is necessary]
+    K --> L["Only suffix preprocessing is necessary"]
 
-    L --> M[Final O(n) greedy algorithm]
+    L --> M["Final O(n) greedy algorithm"]
 ```
 
 ---
