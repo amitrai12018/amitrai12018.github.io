@@ -557,22 +557,22 @@ The whole algorithm can now be visualized as:
 
 ```mermaid
 flowchart TD
-    A[Current word1 index i] --> B{word1[i] == word2[j]?}
+    A["Current word1 index i"] --> B{"Does word1[i] equal word2[j]?"}
 
-    B -->|Yes| C[Take i]
-    C --> D[j += 1]
+    B -->|"Yes"| C["Take i"]
+    C --> D["Increment j"]
 
-    B -->|No| E{Replacement unused?}
+    B -->|"No"| E{"Is the replacement unused?"}
 
-    E -->|No| F[Skip i]
+    E -->|"No"| F["Skip i"]
 
-    E -->|Yes| G{Can suffix finish word2?}
+    E -->|"Yes"| G{"Can the suffix finish word2?"}
 
-    G -->|Yes| H[Take i as replacement]
-    H --> I[replacement_used = True]
+    G -->|"Yes"| H["Take i as replacement"]
+    H --> I["Mark replacement as used"]
     I --> D
 
-    G -->|No| F
+    G -->|"No"| F
 ```
 
 The important point is:
