@@ -17,6 +17,10 @@ tags:
 - debugging
 - prefix-suffix
 
+math: true
+toc: true
+mermaid: true
+
 ---
 
 {: .shadow .rounded-10 }
