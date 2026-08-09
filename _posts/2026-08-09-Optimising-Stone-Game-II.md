@@ -5,18 +5,18 @@ date: 2026-08-09 14:00:00 +0530
 
 categories:
 
-* Algorithms
-* Dynamic Programming
+- Algorithms
+- Dynamic Programming
 
 tags:
 
-* leetcode
-* dynamic-programming
-* minimax
-* game-theory
-* prefix-sum
-* state-compression
-* optimization
+- leetcode
+- dynamic-programming
+- minimax
+- game-theory
+- prefix-sum
+- state-compression
+- optimization
 
 math: true
 toc: true
