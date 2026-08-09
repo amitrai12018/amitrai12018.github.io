@@ -392,7 +392,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 ];
 
-  const container = document.getElementById("reasoning-metrics-quiz");
+  const container = document.getElementById("reinforcement-learning-foundations-quiz");
   if (!container) return;
 
   const root = document.createElement("div");
