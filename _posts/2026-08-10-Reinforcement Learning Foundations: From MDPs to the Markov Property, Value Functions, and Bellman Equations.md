@@ -239,7 +239,7 @@ Before defining an MDP, we need to distinguish three concepts.
 The complete sequence of information available up to time $t$ can be represented as:
 
 $$
-H\_t = (A\_0,O\_0,R\_1,\ldots,A\_{t-1},O\_t,R\_t)
+H_t = (A_0, O_0, R_1, \ldots, A_{t-1}, O_t, R_t)
 $$
 
 Conceptually:
