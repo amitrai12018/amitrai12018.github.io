@@ -16,7 +16,7 @@ tags:
 - bellman-equation
 - policy
 - monte-carlo
-
+---
 
 {: .shadow .rounded-10 }
 
@@ -40,7 +40,7 @@ The goal is not just to memorize the equations, but to understand how the pieces
 > The central idea of this article is: **MDP describes the world, the policy describes the agent's behavior, the return measures what happened, value functions estimate expected return, and Bellman equations recursively decompose that value into immediate reward and future value.**
 > {: .prompt-info }
 
----
+
 
 ## 1. What Is Reinforcement Learning?
 
