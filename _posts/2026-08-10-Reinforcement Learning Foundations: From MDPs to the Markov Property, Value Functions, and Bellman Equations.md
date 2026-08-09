@@ -17,6 +17,10 @@ tags:
 - policy
 - monte-carlo
 
+math: true
+toc: true
+mermaid: true
+
 ---
 
 {: .shadow .rounded-10 }
