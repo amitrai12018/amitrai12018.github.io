@@ -3,24 +3,21 @@ title: "Reinforcement Learning Foundations: From MDPs to the Markov Property, Va
 date: 2026-08-10 00:30:00 +0530
 
 categories:
-
-- Reinforcement Learning
+  - Reinforcement Learning
 
 tags:
-
-- reinforcement-learning
-- mdp
-- markov-property
-- value-function
-- q-function
-- bellman-equation
-- policy
-- monte-carlo
+  - reinforcement-learning
+  - mdp
+  - markov-property
+  - value-function
+  - q-function
+  - bellman-equation
+  - policy
+  - monte-carlo
 
 math: true
 toc: true
 mermaid: true
-
 ---
 
 {: .shadow .rounded-10 }
@@ -145,7 +142,7 @@ $$
 The agent's behavior is described by a **policy**:
 
 $$
-\pi(a|s)
+\pi(a \mid s)
 $$
 
 which tells us the probability of taking action $a$ when the agent is in state $s$.
@@ -191,8 +188,6 @@ The first major challenge is that these decisions are **sequential**: today's ac
 That brings us to the first major concept of the lecture.
 
 ---
-
-
 
 ## 3. Sequential Decision Making
 
@@ -257,7 +252,7 @@ An observation is what the agent currently receives from the environment.
 We can denote it as:
 
 $$
-O\_t
+O_t
 $$
 
 Examples include:
@@ -277,7 +272,7 @@ An observation does **not necessarily contain everything relevant about the env
 The state is the representation used to describe the current situation:
 
 $$
-S\_t=f(H\_t)
+S_t=f(H_t)
 $$
 
 Ideally, the state should preserve all information from the history that is relevant for predicting the future.
@@ -297,7 +292,7 @@ If yes, the state is Markov.
 Formally:
 
 $$
-\boxed{ P(S\_{t+1}\mid S\_t,A\_t,H\_t) = P(S\_{t+1}\mid S\_t,A\_t) }
+\boxed{ P(S_{t+1}\mid S_t,A_t,H_t) = P(S_{t+1}\mid S_t,A_t) }
 $$
 
 In words:
@@ -321,7 +316,7 @@ Consider an autonomous car.
 Suppose we define the state as:
 
 $$
-S\_t=\text{current position}
+S_t=\text{current position}
 $$
 
 The car is currently:
@@ -334,16 +329,22 @@ Now consider two situations.
 
 ### Scenario A
 
-`Position = 100 m Velocity = 80 km/h`
+```text
+Position = 100 m
+Velocity = 80 km/h
+```
 
 ### Scenario B
 
-`Position = 100 m Velocity = 20 km/h`
+```text
+Position = 100 m
+Velocity = 20 km/h
+```
 
 If the state contains only:
 
 $$
-S\_t=100m
+S_t=100m
 $$
 
 then both situations have the **same state representation**.
@@ -355,7 +356,7 @@ The velocity contains information about what will happen next.
 Therefore:
 
 $$
-P(S\_{t+1}\mid S\_t,A\_t,H\_t) \neq P(S\_{t+1}\mid S\_t,A\_t)
+P(S_{t+1}\mid S_t,A_t,H_t) \neq P(S_{t+1}\mid S_t,A_t)
 $$
 
 for this state representation.
@@ -363,7 +364,7 @@ for this state representation.
 So:
 
 $$
-\boxed{ S\_t=\text{position} }
+\boxed{ S_t=\text{position} }
 $$
 
 is not a sufficient Markov state.
@@ -377,13 +378,13 @@ Add the missing information.
 Instead of:
 
 $$
-S\_t=\text{position}
+S_t=\text{position}
 $$
 
 we can define:
 
 $$
-\boxed{ S\_t=(\text{position},\text{velocity}) }
+\boxed{ S_t=(\text{position},\text{velocity}) }
 $$
 
 Now two situations such as:
@@ -421,7 +422,7 @@ Suppose we want to build an RL system that recommends products to a customer.
 We define:
 
 $$
-S\_t=\text{current search query}
+S_t=\text{current search query}
 $$
 
 Two customers both search:
@@ -431,7 +432,7 @@ Two customers both search:
 Therefore:
 
 $$
-S\_t=\text{"running shoes"}
+S_t=\text{"running shoes"}
 $$
 
 for both customers.
@@ -440,18 +441,26 @@ But their histories may be very different.
 
 ### Customer A
 
-`Searched running shoes 10 times Viewed many products Added products to cart Compared prices`
+```text
+Searched running shoes 10 times
+Viewed many products
+Added products to cart
+Compared prices
+```
 
 ### Customer B
 
-`Searched running shoes once No previous interaction`
+```text
+Searched running shoes once
+No previous interaction
+```
 
 If this history affects the probability of a purchase tomorrow, then the current query alone is not a sufficient state.
 
 A richer state might be:
 
 $$
-S\_t= ( \text{query}, \text{recent interactions}, \text{cart status}, \text{purchase history}, \ldots )
+S_t= ( \text{query}, \text{recent interactions}, \text{cart status}, \text{purchase history}, \ldots )
 $$
 
 The goal is not necessarily to preserve **all** history.
@@ -469,13 +478,13 @@ Because it allows us to summarize the past using a compact state.
 Instead of reasoning about:
 
 $$
-P(S\_{t+1}\mid H\_t,A\_t)
+P(S_{t+1}\mid H_t,A_t)
 $$
 
-where $H\_t$ can become arbitrarily long, we can reason about:
+where $H_t$ can become arbitrarily long, we can reason about:
 
 $$
-\boxed{ P(S\_{t+1}\mid S\_t,A\_t) }
+\boxed{ P(S_{t+1}\mid S_t,A_t) }
 $$
 
 This is dramatically easier to model.
@@ -505,15 +514,19 @@ There are no actions and no rewards yet.
 
 For example:
 
-`s₀ ──0.8──→ s₁ │ └──0.2──→ s₂`
+```text
+s₀ ──0.8──→ s₁
+│
+└──0.2──→ s₂
+```
 
 The transition probability is:
 
 $$
-P(s'|s)
+P(s' \mid s)
 $$
 
-which tells us the probability of moving from $s$ to $s’$.
+which tells us the probability of moving from $s$ to $s'$.
 
 ---
 
@@ -573,12 +586,18 @@ The state answers:
 For our robot:
 
 $$
-S=\\{s\_0,s\_1,s\_2,s\_3,s\_4\\}
+S=\{s_0,s_1,s_2,s_3,s_4\}
 $$
 
 For example:
 
-`s₀ = left side of room s₁ = position 1 s₂ = position 2 s₃ = position 3 s₄ = charging station`
+```text
+s₀ = left side of room
+s₁ = position 1
+s₂ = position 2
+s₃ = position 3
+s₄ = charging station
+```
 
 The state representation should ideally satisfy the Markov property.
 
@@ -593,13 +612,13 @@ The action answers:
 For the robot:
 
 $$
-A=\\{\text{Left},\text{Right}\\}
+A=\{\text{Left},\text{Right}\}
 $$
 
 At time $t$:
 
 $$
-A\_t\in A
+A_t\in A
 $$
 
 The distinction is important:
@@ -617,25 +636,25 @@ The transition model describes what happens after an action.
 It is represented as:
 
 $$
-\boxed{ P(s'|s,a) }
+\boxed{ P(s' \mid s, a) }
 $$
 
 This means:
 
-> Probability of transitioning to state $s’$ given that the current state is $s$ and action $a$ was taken.
+> Probability of transitioning to state $s'$ given that the current state is $s$ and action $a$ was taken.
 
 For example:
 
 $$
-P(s\_4|s\_3,\text{Right})=0.8
+P(s_4 \mid s_3,\text{Right})=0.8
 $$
 
-means that if the robot is at $s\_3$ and moves right, there is an 80% probability that it reaches $s\_4$.
+means that if the robot is at $s_3$ and moves right, there is an 80% probability that it reaches $s_4$.
 
 There might also be:
 
 $$
-P(s\_2|s\_3,\text{Right})=0.2
+P(s_2 \mid s_3,\text{Right})=0.2
 $$
 
 representing an 80/20 stochastic transition.
@@ -643,7 +662,7 @@ representing an 80/20 stochastic transition.
 The transition probabilities for a particular $(s,a)$ must satisfy:
 
 $$
-\sum\_{s'}P(s'|s,a)=1
+\sum_{s'}P(s' \mid s, a)=1
 $$
 
 ---
@@ -666,12 +685,16 @@ $$
 
 For example:
 
-`Move normally → 0 Reach charging → +10 Fall into obstacle → -10`
+```text
+Move normally       → 0
+Reach charging      → +10
+Fall into obstacle  → -10
+```
 
 The reward model can also be written as an expected immediate reward:
 
 $$
-R(s,a) = E[r\_t|s\_t=s,a\_t=a]
+R(s,a) = E[r_t|s_t=s,a_t=a]
 $$
 
 The important distinction is:
@@ -684,7 +707,13 @@ The important distinction is:
 
 Therefore, the model of an MDP can be thought of as:
 
-`Model │ ├── Transition / Dynamics │ P(s' | s,a) │ └── Reward R(s,a,s')`
+```text
+Model
+├── Transition / Dynamics
+│   P(s' | s, a)
+└── Reward
+    R(s, a, s')
+```
 
 The model describes the environment.
 
@@ -716,31 +745,31 @@ $$
 For example:
 
 $$
-\pi(s\_0)=\text{Right}
+\pi(s_0)=\text{Right}
 $$
 
 A stochastic policy is represented as:
 
 $$
-\boxed{ \pi(a|s)=P(A\_t=a|S\_t=s) }
+\boxed{ \pi(a \mid s)=P(A_t=a|S_t=s) }
 $$
 
 For example:
 
 $$
-\pi(\text{Right}|s\_0)=0.8
+\pi(\text{Right} \mid s_0)=0.8
 $$
 
 and:
 
 $$
-\pi(\text{Left}|s\_0)=0.2
+\pi(\text{Left} \mid s_0)=0.2
 $$
 
 The probabilities satisfy:
 
 $$
-\sum\_a\pi(a|s)=1
+\sum_a\pi(a \mid s)=1
 $$
 
 ---
@@ -749,44 +778,57 @@ $$
 
 Once we have an MDP and a policy, the agent can interact with the environment.
 
-At state $s\_t$:
+At state $s_t$:
 
 $$
-A\_t\sim\pi(\cdot|s\_t)
+A_t\sim\pi(\cdot|s_t)
 $$
 
 Then the environment transitions:
 
 $$
-S\_{t+1}\sim P(\cdot|s\_t,a\_t)
+S_{t+1}\sim P(\cdot|s_t,a_t)
 $$
 
 and produces a reward:
 
 $$
-R\_{t+1}
+R_{t+1}
 $$
 
 So the interaction looks like:
 
-`Current state sₜ │ │ π(a|sₜ) ▼ Action aₜ │ │ P(s'|sₜ,aₜ) ▼ Next state sₜ₊₁ │ ▼ Reward`
+```text
+Current state s_t
+      │
+      │ π(a | s_t)
+      ▼
+Action a_t
+      │
+      │ P(s' | s_t, a_t)
+      ▼
+Next state s_{t+1}
+      │
+      ▼
+Reward
+```
 
 Repeating this generates a trajectory:
 
 $$
-\tau= (s\_0,a\_0,r\_1,s\_1,a\_1,r\_2,\ldots)
+\tau= (s_0,a_0,r_1,s_1,a_1,r_2,\ldots)
 $$
 
 ---
 
-## 20. Return $G\_t$
+## 20. Return $G_t$
 
 Now we need a way to measure how successful a trajectory was.
 
 The **return** is the cumulative discounted future reward.
 
 $$
-\boxed{ G\_t= R\_{t+1} +\gamma R\_{t+2} +\gamma^2R\_{t+3} +\cdots }
+\boxed{ G_t= R_{t+1} +\gamma R_{t+2} +\gamma^2R_{t+3} +\cdots }
 $$
 
 The discount factor satisfies:
@@ -818,9 +860,9 @@ future rewards matter much more.
 Suppose:
 
 $$
-R\_1=0
+R_1=0
 $$ $$
-R\_2=10
+R_2=10
 $$
 
 and:
@@ -832,13 +874,13 @@ $$
 Then:
 
 $$
-G\_0 = 0+0.9(10)
+G_0 = 0+0.9(10)
 $$
 
 Therefore:
 
 $$
-\boxed{ G\_0=9 }
+\boxed{ G_0=9 }
 $$
 
 The reward of $10$ is received one step in the future, so it gets multiplied by $\gamma$.
@@ -890,7 +932,7 @@ we ask:
 This is the state-value function:
 
 $$
-\boxed{ V^\pi(s) = E\_\pi[G\_t|S\_t=s] }
+\boxed{ V^\pi(s) = E_\pi[G_t \mid S_t=s] }
 $$
 
 Think of it as:
@@ -906,7 +948,7 @@ The value function does not specify an action.
 The Q-function does.
 
 $$
-\boxed{ Q^\pi(s,a) = E\_\pi[G\_t|S\_t=s,A\_t=a] }
+\boxed{ Q^\pi(s,a) = E_\pi[G_t \mid S_t=s, A_t=a] }
 $$
 
 It asks:
@@ -942,25 +984,25 @@ means:
 The policy chooses actions according to:
 
 $$
-\pi(a|s)
+\pi(a \mid s)
 $$
 
 Therefore the state value is the policy-weighted average of the Q-values:
 
 $$
-\boxed{ V^\pi(s) = \sum\_a \pi(a|s)Q^\pi(s,a) }
+\boxed{ V^\pi(s) = \sum_a \pi(a \mid s)Q^\pi(s,a) }
 $$
 
 For a deterministic policy:
 
 $$
-\pi(s)=a^\*
+\pi(s)=a^*
 $$
 
 we get:
 
 $$
-\boxed{ V^\pi(s)=Q^\pi(s,a^\*) }
+\boxed{ V^\pi(s)=Q^\pi(s,a^*) }
 $$
 
 This relationship is extremely important.
@@ -971,7 +1013,15 @@ This relationship is extremely important.
 
 Suppose at state $A$:
 
-`A / \ Left Right ↓ ↓ +5 B ↓ +10`
+```text
+        A
+      /   \
+   Left   Right
+     ↓       ↓
+    +5      B
+             ↓
+            +10
+```
 
 Let:
 
@@ -996,9 +1046,9 @@ $$
 Now suppose the policy is:
 
 $$
-\pi(\text{Left}|A)=0.3
+\pi(\text{Left} \mid A)=0.3
 $$ $$
-\pi(\text{Right}|A)=0.7
+\pi(\text{Right} \mid A)=0.7
 $$
 
 Then:
@@ -1023,25 +1073,25 @@ The Bellman equation is one of the central ideas in RL.
 Start with the definition of return:
 
 $$
-G\_t= R\_{t+1} +\gamma R\_{t+2} +\gamma^2R\_{t+3} +\cdots
+G_t= R_{t+1} +\gamma R_{t+2} +\gamma^2R_{t+3} +\cdots
 $$
 
 We can split this into:
 
 $$
-G\_t = R\_{t+1} + \gamma \left( R\_{t+2} +\gamma R\_{t+3} +\cdots \right)
+G_t = R_{t+1} + \gamma \left( R_{t+2} +\gamma R_{t+3} +\cdots \right)
 $$
 
 The expression in parentheses is simply the return from the next time step:
 
 $$
-G\_{t+1}
+G_{t+1}
 $$
 
 Therefore:
 
 $$
-\boxed{ G\_t=R\_{t+1}+\gamma G\_{t+1} }
+\boxed{ G_t=R_{t+1}+\gamma G_{t+1} }
 $$
 
 This simple identity is the foundation of the Bellman equations.
@@ -1053,7 +1103,7 @@ This simple identity is the foundation of the Bellman equations.
 For an MRP, the value equation is:
 
 $$
-\boxed{ V(s) = R(s) + \gamma \sum\_{s'} P(s'|s)V(s') }
+\boxed{ V(s) = R(s) + \gamma \sum_{s'} P(s' \mid s)V(s') }
 $$
 
 Read this as:
@@ -1073,26 +1123,38 @@ Now introduce actions and a policy.
 The agent chooses action $a$ according to:
 
 $$
-\pi(a|s)
+\pi(a \mid s)
 $$
 
-The environment then transitions to $s’$ according to:
+The environment then transitions to $s'$ according to:
 
 $$
-P(s'|s,a)
+P(s' \mid s, a)
 $$
 
 Therefore:
 
 $$
-\boxed{ V^\pi(s) = \sum\_a \pi(a|s) \sum\_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma V^\pi(s') \right] }
+\boxed{ V^\pi(s) = \sum_a \pi(a \mid s) \sum_{s'} P(s' \mid s, a) \left[ R(s,a,s') + \gamma V^\pi(s') \right] }
 $$
 
 This equation can look intimidating, but it is just the RL interaction written mathematically.
 
 Read it from inside outward:
 
-`R(s,a,s') + γ Vπ(s') ↓ Reward + future value weighted by: P(s' | s,a) ↓ Which next state occurs? weighted by: π(a | s) ↓ Which action does the policy choose?`
+```text
+R(s, a, s') + γ V^π(s')
+        ↓
+Reward + future value
+        │
+weighted by P(s' | s, a)
+        ↓
+Which next state occurs?
+        │
+weighted by π(a | s)
+        ↓
+Which action does the policy choose?
+```
 
 Therefore:
 
@@ -1107,19 +1169,19 @@ $$
 First define:
 
 $$
-Q^\pi(s,a) = \sum\_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma V^\pi(s') \right]
+Q^\pi(s,a) = \sum_{s'} P(s' \mid s, a) \left[ R(s,a,s') + \gamma V^\pi(s') \right]
 $$
 
 Then:
 
 $$
-V^\pi(s) = \sum\_a \pi(a|s)Q^\pi(s,a)
+V^\pi(s) = \sum_a \pi(a \mid s)Q^\pi(s,a)
 $$
 
 Combining the two gives:
 
 $$
-\boxed{ V^\pi(s) = \sum\_a\pi(a|s) \sum\_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma V^\pi(s') \right] }
+\boxed{ V^\pi(s) = \sum_a\pi(a \mid s) \sum_{s'} P(s' \mid s, a) \left[ R(s,a,s') + \gamma V^\pi(s') \right] }
 $$
 
 This is one of the most important equations to understand from the first lecture.
@@ -1144,7 +1206,13 @@ for the states in the MDP.
 
 The key distinction is:
 
-`Evaluation: Given π ↓ How good is π? ↓ Vπ`
+```text
+Evaluation: Given π
+        ↓
+How good is π?
+        ↓
+V^π
+```
 
 We are **not yet trying to change the policy**.
 
@@ -1161,13 +1229,13 @@ This is the **control problem**.
 We want:
 
 $$
-\boxed{ \pi^\* }
+\boxed{ \pi^* }
 $$
 
 such that:
 
 $$
-V^{\pi^\*}(s) \geq V^\pi(s)
+V^{\pi^*}(s) \geq V^\pi(s)
 $$
 
 for all policies $\pi$.
@@ -1175,13 +1243,13 @@ for all policies $\pi$.
 Equivalently:
 
 $$
-\boxed{ V^\*(s) = \max\_\pi V^\pi(s) }
+\boxed{ V^*(s) = \max_\pi V^\pi(s) }
 $$
 
 The optimal Q-function is:
 
 $$
-Q^\*(s,a)
+Q^*(s,a)
 $$
 
 and represents the best possible expected return after taking action $a$ in state $s$ and acting optimally afterward.
@@ -1201,7 +1269,7 @@ The Bellman optimality equation says:
 Therefore:
 
 $$
-\boxed{ V^\*(s) = \max\_a \sum\_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma V^\*(s') \right] }
+\boxed{ V^*(s) = \max_a \sum_{s'} P(s' \mid s, a) \left[ R(s,a,s') + \gamma V^*(s') \right] }
 $$
 
 Compare the two equations.
@@ -1209,13 +1277,13 @@ Compare the two equations.
 ### Policy evaluation
 
 $$
-V^\pi(s) = \sum\_a \pi(a|s) \sum\_{s'} P(s'|s,a) [ R+\gamma V^\pi(s') ]
+V^\pi(s) = \sum_a \pi(a \mid s) \sum_{s'} P(s' \mid s, a) [ R+\gamma V^\pi(s') ]
 $$
 
 ### Optimality
 
 $$
-V^\*(s) = \max\_a \sum\_{s'} P(s'|s,a) [ R+\gamma V^\*(s') ]
+V^*(s) = \max_a \sum_{s'} P(s' \mid s, a) [ R+\gamma V^*(s') ]
 $$
 
 The major conceptual difference is:
@@ -1287,7 +1355,6 @@ flowchart TD
     L --> M["Optimal Policy"]
 ```
 
-
 ## 35. Model-Based vs Model-Free RL
 
 Another important distinction is whether the agent explicitly has a model of the environment.
@@ -1297,7 +1364,7 @@ Another important distinction is whether the agent explicitly has a model of the
 The agent has or learns:
 
 $$
-P(s'|s,a)
+P(s' \mid s, a)
 $$
 
 and:
@@ -1308,7 +1375,15 @@ $$
 
 It can use this model for planning.
 
-`Model ↓ Predict consequences ↓ Plan ↓ Choose action`
+```text
+Model
+  ↓
+Predict consequences
+  ↓
+Plan
+  ↓
+Choose action
+```
 
 ---
 
@@ -1327,10 +1402,16 @@ $$
 and/or:
 
 $$
-\pi(a|s)
+\pi(a \mid s)
 $$
 
-`Experience ↓ Learn value / policy ↓ Choose action`
+```text
+Experience
+    ↓
+Learn value / policy
+    ↓
+Choose action
+```
 
 An important point is that **model-based/model-free** and **value-based/policy-based** are different dimensions.
 
@@ -1348,7 +1429,17 @@ An action can have consequences much later.
 
 For example:
 
-`Action at t=1 ↓ State at t=2 ↓ Action at t=3 ↓ ... ↓ Reward at t=20`
+```text
+Action at t=1
+      ↓
+State at t=2
+      ↓
+Action at t=3
+      ↓
+...
+      ↓
+Reward at t=20
+```
 
 This creates the **temporal credit assignment problem**:
 
@@ -1427,7 +1518,7 @@ Ask:
 Write:
 
 $$
-S\_t=?
+S_t=?
 $$
 
 ---
@@ -1455,7 +1546,7 @@ Ask:
 Write:
 
 $$
-P(s'|s,a)
+P(s' \mid s, a)
 $$
 
 ---
@@ -1483,7 +1574,7 @@ Ask:
 Write:
 
 $$
-\pi(a|s)
+\pi(a \mid s)
 $$
 
 ---
@@ -1497,7 +1588,7 @@ Ask:
 Write:
 
 $$
-G\_t= R\_{t+1} +\gamma R\_{t+2} +\gamma^2R\_{t+3} +\cdots
+G_t= R_{t+1} +\gamma R_{t+2} +\gamma^2R_{t+3} +\cdots
 $$
 
 ---
@@ -1511,7 +1602,7 @@ Ask:
 Write:
 
 $$
-V^\pi(s) = E\_\pi[G\_t|S\_t=s]
+V^\pi(s) = E_\pi[G_t \mid S_t=s]
 $$
 
 ---
@@ -1525,7 +1616,7 @@ Ask:
 Write:
 
 $$
-Q^\pi(s,a) = E\_\pi[G\_t|S\_t=s,A\_t=a]
+Q^\pi(s,a) = E_\pi[G_t \mid S_t=s, A_t=a]
 $$
 
 ---
@@ -1537,7 +1628,7 @@ If I had to reduce the entire lecture to a small mathematical sheet, I would kee
 ### Markov Property
 
 $$
-\boxed{ P(S\_{t+1}|S\_t,A\_t,H\_t) = P(S\_{t+1}|S\_t,A\_t) }
+\boxed{ P(S_{t+1} \mid S_t, A_t, H_t) = P(S_{t+1} \mid S_t, A_t) }
 $$
 
 ### MDP
@@ -1549,43 +1640,43 @@ $$
 ### Policy
 
 $$
-\boxed{ \pi(a|s)=P(A\_t=a|S\_t=s) }
+\boxed{ \pi(a \mid s)=P(A_t=a|S_t=s) }
 $$
 
 ### Return
 
 $$
-\boxed{ G\_t= R\_{t+1} +\gamma R\_{t+2} +\gamma^2R\_{t+3} +\cdots }
+\boxed{ G_t= R_{t+1} +\gamma R_{t+2} +\gamma^2R_{t+3} +\cdots }
 $$
 
 ### State Value
 
 $$
-\boxed{ V^\pi(s) = E\_\pi[G\_t|S\_t=s] }
+\boxed{ V^\pi(s) = E_\pi[G_t \mid S_t=s] }
 $$
 
 ### Action Value
 
 $$
-\boxed{ Q^\pi(s,a) = E\_\pi[G\_t|S\_t=s,A\_t=a] }
+\boxed{ Q^\pi(s,a) = E_\pi[G_t \mid S_t=s, A_t=a] }
 $$
 
 ### Relationship Between $V$ and $Q$
 
 $$
-\boxed{ V^\pi(s) = \sum\_a\pi(a|s)Q^\pi(s,a) }
+\boxed{ V^\pi(s) = \sum_a\pi(a \mid s)Q^\pi(s,a) }
 $$
 
 ### Bellman Expectation Equation
 
 $$
-\boxed{ V^\pi(s) = \sum\_a\pi(a|s) \sum\_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma V^\pi(s') \right] }
+\boxed{ V^\pi(s) = \sum_a\pi(a \mid s) \sum_{s'} P(s' \mid s, a) \left[ R(s,a,s') + \gamma V^\pi(s') \right] }
 $$
 
 ### Bellman Optimality Equation
 
 $$
-\boxed{ V^\*(s) = \max\_a \sum\_{s'} P(s'|s,a) \left[ R(s,a,s') + \gamma V^\*(s') \right] }
+\boxed{ V^*(s) = \max_a \sum_{s'} P(s' \mid s, a) \left[ R(s,a,s') + \gamma V^*(s') \right] }
 $$
 
 ---
@@ -1612,7 +1703,6 @@ They become different ways of solving different parts of the same underlying pro
 
 ---
 
-
 ## 41. Final Mental Model
 
 The entire first lecture can be remembered as one chain:
@@ -1637,7 +1727,7 @@ Sequential Decision Making
         ┌─────┴─────┐
         ▼           ▼
    Transition     Reward
-   P(s'|s,a)      R(s,a,s')
+   P(s' \mid s, a)      R(s,a,s')
         │           │
         └─────┬─────┘
               ▼
@@ -1673,9 +1763,6 @@ The core idea is:
 Once this chain is clear, algorithms such as **Dynamic Programming, Monte Carlo, TD Learning, SARSA, Q-learning, Policy Gradient, Actor-Critic, and PPO** stop looking like unrelated algorithms.
 
 They become different ways of solving different parts of the same underlying problem.
-
-
-
 
 Quiz : Active Recall
 
