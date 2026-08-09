@@ -711,13 +711,17 @@ The important distinction is:
 
 Therefore, the model of an MDP can be thought of as:
 
-```text
-Model
-├── Transition / Dynamics
-│   P(s' | s, a)
-└── Reward
-    R(s, a, s')
-```
+<div style="text-align: center; line-height: 2;">
+
+<div><strong>Model</strong></div>
+<div>│</div>
+<div>├── Transition / Dynamics</div>
+<div>│&nbsp;&nbsp;&nbsp;P(s' | s, a)</div>
+<div>│</div>
+<div>└── Reward</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;R(s, a, s')</div>
+
+</div>
 
 The model describes the environment.
 
@@ -802,20 +806,31 @@ $$
 
 So the interaction looks like:
 
-```text
-Current state s_t
-      │
-      │ π(a | s_t)
-      ▼
-Action a_t
-      │
-      │ P(s' | s_t, a_t)
-      ▼
-Next state s_{t+1}
-      │
-      ▼
-Reward
-```
+<div style="text-align: center; line-height: 1.8;">
+
+<div><strong>Current State</strong> &nbsp; $s_t$</div>
+
+<div>↓</div>
+
+<div>Policy: $\pi(a \mid s_t)$</div>
+
+<div>↓</div>
+
+<div><strong>Action</strong> &nbsp; $a_t$</div>
+
+<div>↓</div>
+
+<div>Transition: $P(s' \mid s_t, a_t)$</div>
+
+<div>↓</div>
+
+<div><strong>Next State</strong> &nbsp; $s_{t+1}$</div>
+
+<div>↓</div>
+
+<div><strong>Reward</strong> &nbsp; $R_{t+1}$</div>
+
+</div>
 
 Repeating this generates a trajectory:
 
@@ -1017,15 +1032,32 @@ This relationship is extremely important.
 
 Suppose at state $A$:
 
-```text
-        A
-      /   \
-   Left   Right
-     ↓       ↓
-    +5      B
-             ↓
-            +10
-```
+<div style="text-align: center; line-height: 1.8;">
+
+<div><strong>A</strong></div>
+
+<div>↙ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↘</div>
+
+<div>
+    <span style="display: inline-block; width: 120px;">Left</span>
+    <span style="display: inline-block; width: 120px;">Right</span>
+</div>
+
+<div>
+    <span style="display: inline-block; width: 120px;">↓</span>
+    <span style="display: inline-block; width: 120px;">↓</span>
+</div>
+
+<div>
+    <span style="display: inline-block; width: 120px;"><strong>+5</strong></span>
+    <span style="display: inline-block; width: 120px;"><strong>B</strong></span>
+</div>
+
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓</div>
+
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>+10</strong></div>
+
+</div>
 
 Let:
 
@@ -1146,19 +1178,31 @@ This equation can look intimidating, but it is just the RL interaction written m
 
 Read it from inside outward:
 
-```text
-R(s, a, s') + γ V^π(s')
-        ↓
-Reward + future value
-        │
-weighted by P(s' | s, a)
-        ↓
-Which next state occurs?
-        │
-weighted by π(a | s)
-        ↓
-Which action does the policy choose?
-```
+<div style="text-align: center; line-height: 1.8;">
+
+<div>$R(s,a,s') + \gamma V^\pi(s')$</div>
+
+<div>↓</div>
+
+<div><strong>Immediate reward + future value</strong></div>
+
+<div>↓</div>
+
+<div>Weighted by $P(s' \mid s,a)$</div>
+
+<div>↓</div>
+
+<div><strong>Which next state occurs?</strong></div>
+
+<div>↓</div>
+
+<div>Weighted by $\pi(a \mid s)$</div>
+
+<div>↓</div>
+
+<div><strong>Which action does the policy choose?</strong></div>
+
+</div>
 
 Therefore:
 
@@ -1210,13 +1254,23 @@ for the states in the MDP.
 
 The key distinction is:
 
-```text
-Evaluation: Given π
-        ↓
-How good is π?
-        ↓
-V^π
-```
+<div style="text-align: center; line-height: 2;">
+
+<div><strong>Policy Evaluation</strong></div>
+
+<div>↓</div>
+
+<div>Given policy $\pi$</div>
+
+<div>↓</div>
+
+<div>How good is $\pi$?</div>
+
+<div>↓</div>
+
+<div>$V^\pi$</div>
+
+</div>
 
 We are **not yet trying to change the policy**.
 
@@ -1379,15 +1433,23 @@ $$
 
 It can use this model for planning.
 
-```text
-Model
-  ↓
-Predict consequences
-  ↓
-Plan
-  ↓
-Choose action
-```
+<div style="text-align: center; line-height: 2;">
+
+<div><strong>Model</strong></div>
+
+<div>↓</div>
+
+<div>Predict Consequences</div>
+
+<div>↓</div>
+
+<div>Plan</div>
+
+<div>↓</div>
+
+<div><strong>Choose Action</strong></div>
+
+</div>
 
 ---
 
@@ -1409,13 +1471,19 @@ $$
 \pi(a \mid s)
 $$
 
-```text
-Experience
-    ↓
-Learn value / policy
-    ↓
-Choose action
-```
+<div style="text-align: center; line-height: 2;">
+
+<div><strong>Experience</strong></div>
+
+<div>↓</div>
+
+<div>Learn Value / Policy</div>
+
+<div>↓</div>
+
+<div><strong>Choose Action</strong></div>
+
+</div>
 
 An important point is that **model-based/model-free** and **value-based/policy-based** are different dimensions.
 
@@ -1433,17 +1501,27 @@ An action can have consequences much later.
 
 For example:
 
-```text
-Action at t=1
-      ↓
-State at t=2
-      ↓
-Action at t=3
-      ↓
-...
-      ↓
-Reward at t=20
-```
+<div style="text-align: center; line-height: 2;">
+
+<div>Action at $t=1$</div>
+
+<div>↓</div>
+
+<div>State at $t=2$</div>
+
+<div>↓</div>
+
+<div>Action at $t=3$</div>
+
+<div>↓</div>
+
+<div>⋮</div>
+
+<div>↓</div>
+
+<div><strong>Reward at $t=20$</strong></div>
+
+</div>
 
 This creates the **temporal credit assignment problem**:
 
