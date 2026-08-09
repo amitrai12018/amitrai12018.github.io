@@ -1436,55 +1436,53 @@ They become different ways of solving different parts of the same underlying pro
 
 The entire first lecture can be remembered as one chain:
 
-```text
-                    REINFORCEMENT LEARNING
-                             │
-                             ▼
-                   Sequential Decision Making
-                             │
-                             ▼
-                      Markov Assumption
-                             │
-                             ▼
-                            MDP
-                             │
-                ┌────────────┼────────────┐
-                │            │            │
-                ▼            ▼            ▼
-             State         Action       Model
-                                           │
-                                 ┌─────────┴─────────┐
-                                 ▼                   ▼
-                            Transition            Reward
-                            P(s'|s,a)             R(s,a,s')
-                                 │                   │
-                                 └─────────┬─────────┘
-                                           ▼
-                                         Policy
-                                         π(a|s)
-                                           │
-                                           ▼
-                                       Trajectory
-                                           │
-                                           ▼
-                                         Return
-                                           Gₜ
-                                           │
-                              ┌────────────┴────────────┐
-                              ▼                         ▼
-                           Vπ(s)                     Qπ(s,a)
-                              │                         │
-                              └────────────┬────────────┘
-                                           ▼
-                                    Bellman Equation
-                                           │
-                                ┌──────────┴──────────┐
-                                ▼                     ▼
-                            Evaluation              Control
-                                                        │
-                                                        ▼
-                                                 Optimal Policy π*
-```
+<pre>
+REINFORCEMENT LEARNING
+         │
+         ▼
+Sequential Decision Making
+         │
+         ▼
+  Markov Assumption
+         │
+         ▼
+        MDP
+         │
+   ┌─────┼─────┐
+   │     │     │
+   ▼     ▼     ▼
+ State Action Model
+              │
+        ┌─────┴─────┐
+        ▼           ▼
+   Transition     Reward
+   P(s'|s,a)      R(s,a,s')
+        │           │
+        └─────┬─────┘
+              ▼
+        Policy π(a|s)
+              │
+              ▼
+          Trajectory
+              │
+              ▼
+           Return Gₜ
+              │
+       ┌──────┴──────┐
+       ▼             ▼
+     Vπ(s)         Qπ(s,a)
+       │             │
+       └──────┬──────┘
+              ▼
+       Bellman Equation
+              │
+       ┌──────┴──────┐
+       ▼             ▼
+  Evaluation       Control
+                       │
+                       ▼
+                 Optimal Policy π*
+</pre>
 
 The core idea is:
 
