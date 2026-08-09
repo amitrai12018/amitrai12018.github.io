@@ -25,6 +25,174 @@ mermaid: true
 
 {: .shadow .rounded-10 }
 
+## 1. What Is Reinforcement Learning?
+
+**Reinforcement Learning (RL)** is a framework for learning how to make decisions through interaction with an environment.
+
+At each time step, an agent:
+
+1. observes the current situation,
+2. chooses an action,
+3. receives a reward,
+4. moves to a new situation,
+5. and repeats the process.
+
+A simple interaction looks like:
+
+<div style="text-align: center; line-height: 1.5;">
+
+<div>State / Observation</div>
+<div>↓</div>
+<div>Agent chooses Action</div>
+<div>↓</div>
+<div>Environment</div>
+<div>↓</div>
+<div>Reward + Next State</div>
+<div>↓</div>
+<div>Agent chooses next Action</div>
+
+</div>
+
+The central objective is:
+
+> **Learn a policy that chooses actions so that the agent maximizes its expected cumulative future reward.**
+
+This is different from ordinary supervised learning.
+
+In supervised learning, we are typically given examples of the form:
+
+$$
+(x,y)
+$$
+
+and the goal is to learn a mapping:
+
+$$
+x \rightarrow y
+$$
+
+In reinforcement learning, the agent is not simply given the correct action for every situation.
+
+Instead, it has to **learn from the consequences of its actions**.
+
+For example, consider a robot navigating a room.
+
+- **State:** where the robot currently is
+- **Action:** move left, right, forward, etc.
+- **Reward:** positive reward for reaching the destination, negative reward for hitting an obstacle
+- **Goal:** learn which actions lead to the highest long-term reward
+
+The important word is **long-term**.
+
+An action may produce a small reward now but lead to a much better situation later.
+
+This is why RL is fundamentally a problem of **sequential decision making**.
+
+> **RL is not just about choosing a good action. It is about choosing actions whose consequences lead to good future outcomes.**
+> {: .prompt-info }
+
+## 2. The RL Interaction Loop
+
+Before introducing the mathematical framework, it is useful to understand the basic interaction between the agent and the environment.
+
+At time $t$, the agent is in some state $S_t$.
+
+It chooses an action:
+
+$$
+A_t
+$$
+
+The environment responds by producing a reward and a new state:
+
+$$
+R_{t+1}, S_{t+1}
+$$
+
+The process then repeats.
+
+Conceptually:
+
+<div style="text-align: center; line-height: 1.5;">
+
+<div>Current State $S_t$</div>
+<div>↓</div>
+<div>Agent chooses Action $A_t$</div>
+<div>↓</div>
+<div>Environment</div>
+<div>↓</div>
+<div>Reward $R_{t+1}$ + Next State $S_{t+1}$</div>
+<div>↓</div>
+<div>Agent chooses $A_{t+1}$</div>
+<div>↓</div>
+<div>Environment</div>
+<div>↓</div>
+<div>...</div>
+
+</div>
+
+Mathematically, one interaction step can be summarized as:
+
+$$
+S_t
+\rightarrow
+A_t
+\rightarrow
+R_{t+1},S_{t+1}
+$$
+
+The agent's behavior is described by a **policy**:
+
+$$
+\pi(a|s)
+$$
+
+which tells us the probability of taking action $a$ when the agent is in state $s$.
+
+The environment determines what happens after the action.
+
+In a stochastic environment:
+
+$$
+A_t \sim \pi(\cdot|S_t)
+$$
+
+and:
+
+$$
+S_{t+1}\sim P(\cdot|S_t,A_t)
+$$
+
+where $P$ is the environment's transition model.
+
+Repeating this interaction generates a sequence such as:
+
+$$
+S_0,A_0,R_1,S_1,A_1,R_2,S_2,\ldots
+$$
+
+This sequence is called a **trajectory**.
+
+### The Three Core Components
+
+At the highest level, we can think about RL through three components:
+
+| Component | Question |
+| --------- | -------- |
+| **Agent** | What should I do? |
+| **Environment** | What happens when I do it? |
+| **Reward** | Was the outcome good or bad? |
+
+Later, we will turn these ideas into the formal MDP framework.
+
+The first major challenge is that these decisions are **sequential**: today's action changes tomorrow's state.
+
+That brings us to the first major concept of the lecture.
+
+---
+
+
+
 ## 3. Sequential Decision Making
 
 The first important characteristic of RL is that decisions are **sequential**.
