@@ -24,6 +24,7 @@ mermaid: true
 ---
 
 {: .shadow .rounded-10 }
+![Reinforcement Learning Foundations: From MDPs to the Markov Property, Value Functions, and Bellman Equations](assets/img/posts/Reinforcement-Learning-Foundations/image.png)
 
 ## 1. What Is Reinforcement Learning?
 
