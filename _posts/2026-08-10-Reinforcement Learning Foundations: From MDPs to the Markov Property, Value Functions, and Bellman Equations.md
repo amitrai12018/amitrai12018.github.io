@@ -1677,7 +1677,8 @@ They become different ways of solving different parts of the same underlying pro
 
 
 
-## Quiz : Active Recall
+Quiz : Active Recall
 
-<div id="reinforcement-learning-foundations-quiz"></div>
-<script src="/assets/js/reinforcement-learning-foundations.js"></script>
+<div id="rl-quiz"></div>
+
+<script src="/assets/js/rl-quiz.js"></script>
