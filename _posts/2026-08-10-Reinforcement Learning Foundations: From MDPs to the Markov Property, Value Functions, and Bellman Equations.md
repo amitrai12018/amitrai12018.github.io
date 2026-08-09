@@ -219,7 +219,7 @@ For example:
 Mathematically:
 
 $$
-S\_t,A\_t \rightarrow S\_{t+1} \rightarrow A\_{t+1} \rightarrow S\_{t+2}
+S_t, A_t \rightarrow S_{t+1} \rightarrow A_{t+1} \rightarrow S_{t+2}
 $$
 
 Therefore, an action cannot always be evaluated only by its immediate reward.
