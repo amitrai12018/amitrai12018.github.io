@@ -1673,3 +1673,11 @@ The core idea is:
 Once this chain is clear, algorithms such as **Dynamic Programming, Monte Carlo, TD Learning, SARSA, Q-learning, Policy Gradient, Actor-Critic, and PPO** stop looking like unrelated algorithms.
 
 They become different ways of solving different parts of the same underlying problem.
+
+
+
+
+## Quiz : Active Recall
+
+<div id="reinforcement-learning-foundations-quiz"></div>
+<script src="/assets/js/reinforcement-learning-foundations.js"></script>
