@@ -1090,32 +1090,20 @@ flowchart TD
 
 The entire diagram can be read as:
 
-```text
-RL
- ↓
-Sequential decision making
- ↓
-Markov assumption
- ↓
-MDP
- ↓
-State + Action + Environment Model
- ↓
-Policy interacts with environment
- ↓
-Trajectory
- ↓
-Return
- ↓
-Expected Return
- ↓
-Value / Q-value
- ↓
-Bellman Equation
- ↓
-Evaluation / Control
- ↓
-Optimal Policy
+```mermaid
+flowchart TD
+    A["RL"] --> B["Sequential Decision Making"]
+    B --> C["Markov Assumption"]
+    C --> D["MDP"]
+    D --> E["State + Action + Environment Model"]
+    E --> F["Policy"]
+    F --> G["Trajectory"]
+    G --> H["Return"]
+    H --> I["Expected Return"]
+    I --> J["Value / Q-value"]
+    J --> K["Bellman Equation"]
+    K --> L["Evaluation / Control"]
+    L --> M["Optimal Policy"]
 ```
 
 
