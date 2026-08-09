@@ -514,11 +514,15 @@ There are no actions and no rewards yet.
 
 For example:
 
-```text
-s₀ ──0.8──→ s₁
-│
-└──0.2──→ s₂
-```
+<div style="text-align: center; line-height: 2;">
+
+<div><strong>s₀</strong></div>
+<div>│</div>
+<div>├── 0.8 ──→ <strong>s₁</strong></div>
+<div>│</div>
+<div>└── 0.2 ──→ <strong>s₂</strong></div>
+
+</div>
 
 The transition probability is:
 
