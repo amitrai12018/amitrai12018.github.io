@@ -1053,43 +1053,67 @@ At this point, we can reconstruct the entire conceptual flow.
 
 ```mermaid
 flowchart TD
-    A[Reinforcement Learning] --> B[Sequential Decision Making]
-    B --> C[Markov Assumption]
-    C --> D[MDP]
+    A["Reinforcement Learning"] --> B["Sequential Decision Making"]
+    B --> C["Markov Assumption"]
+    C --> D["MDP"]
 
-    D --> E[State S]
-    D --> F[Action A]
-    D --> G[Model]
+    D --> E["State"]
+    D --> F["Action"]
+    D --> G["Environment Model"]
 
-    G --> H[Transition P(s-prime given s,a)]
-    G --> I[Reward R]
+    G --> H["Transition Model"]
+    G --> I["Reward Model"]
 
-    E --> J[Policy π]
+    E --> J["Policy"]
     F --> J
-    H --> K[Trajectory]
+    H --> K["Trajectory"]
     I --> K
     J --> K
 
-    K --> L[Return G]
+    K --> L["Return"]
 
-    L --> M[Value Vπ]
-    L --> N[Q-value Qπ]
+    L --> M["State Value"]
+    L --> N["Q Value"]
 
-    M --> O[Bellman Equation]
+    M --> O["Bellman Equation"]
     N --> O
 
-    O --> P[Policy Evaluation]
-    O --> Q[Control]
+    O --> P["Policy Evaluation"]
+    O --> Q["Control"]
 
-    Q --> R[Optimal Policy π*]
-
+    Q --> R["Optimal Policy"]
 ```
 
 The entire diagram can be read as:
 
-`RL ↓ Sequential decision making ↓ Markov assumption ↓ MDP ↓ State + Action + Environment Model ↓ Policy interacts with environment ↓ Trajectory ↓ Return ↓ Expected Return ↓ Value / Q-value ↓ Bellman Equation ↓ Evaluation / Control ↓ Optimal Policy`
+```text
+RL
+ ↓
+Sequential decision making
+ ↓
+Markov assumption
+ ↓
+MDP
+ ↓
+State + Action + Environment Model
+ ↓
+Policy interacts with environment
+ ↓
+Trajectory
+ ↓
+Return
+ ↓
+Expected Return
+ ↓
+Value / Q-value
+ ↓
+Bellman Equation
+ ↓
+Evaluation / Control
+ ↓
+Optimal Policy
+```
 
----
 
 ## 35. Model-Based vs Model-Free RL
 
