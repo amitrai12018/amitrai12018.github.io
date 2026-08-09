@@ -33,7 +33,19 @@ An action taken now affects the state in which the agent will make its next deci
 
 For example:
 
-`Current State ↓ Choose Right ↓ Next State ↓ Choose Right/Left ↓ Next State`
+<div style="text-align: center; line-height: 1.5;">
+
+<div>Current State</div>
+<div>↓</div>
+<div>Choose Right</div>
+<div>↓</div>
+<div>Next State</div>
+<div>↓</div>
+<div>Choose Right / Left</div>
+<div>↓</div>
+<div>Next State</div>
+
+</div>
 
 Mathematically:
 
