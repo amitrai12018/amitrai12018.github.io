@@ -1,6 +1,6 @@
 ---
 title: "How Many Users Do You Need for an A/B Test? From 1/√N to Hoeffding, Bernstein, and Statistical Power"
-date: 2026-08-12 09:00:00 +0530
+date: 2026-08-12 02:00:00 +0530
 
 categories:
 
