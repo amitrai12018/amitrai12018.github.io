@@ -17,8 +17,6 @@ toc: true
 
 
 
-![MDE in A/B Testing](/assets/img/posts/mde-ab-testing/mde-cover.png) {:
-.shadow .rounded-10 }
 
 When reading about **A/B testing**, it is easy to encounter a collection
 of formulas for sample size, standard error, p-values, confidence
